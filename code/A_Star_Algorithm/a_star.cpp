@@ -5,11 +5,13 @@ using namespace std;
 
 int ROW, COL;
 typedef pair<int, int> ii;
+
 struct Grid
 {
     ii parent = {-1, -1};
     double f = FLT_MAX, g = FLT_MAX, h = FLT_MAX; // f = g + h
 };
+
 #define fi first
 #define se second
 #define mp make_pair
