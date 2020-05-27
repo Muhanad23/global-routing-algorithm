@@ -45,7 +45,7 @@ void get_path(const VVG &cells, ii dst)
     printf("\n");
 }
 
-bool try_go_to(VVI &grid, int &i, int &j, int iNew, int jNew, VVG &cells, set<dii> &pq, VVB &visited, ii &dst, bool &dstFound)
+bool try_go_to(VVI &grid, int &i, int &j, int iNew, int jNew, VVG &cells, set<dii> &pq, VVB &visited, ii &dst)
 {
     double fNew, hNew, gNew;
     if (is_valid(iNew, jNew))
@@ -54,7 +54,6 @@ bool try_go_to(VVI &grid, int &i, int &j, int iNew, int jNew, VVG &cells, set<di
         {
             cells[iNew][jNew].parent = {i, j};
             get_path(cells, dst);
-            dstFound = true;
             return true;
         }
         else if (!visited[iNew][jNew] && not_blocked(grid, iNew, jNew))
@@ -91,7 +90,6 @@ void a_star(VVI &grid, ii src, ii dst)
         return;
     }
 
-    bool dstFound = false;
     VVG cells(ROW, vector<Grid>(COL));
     VVB visited(ROW, vector<bool>(COL, false));
     int i = src.fi, j = src.se;      // source to i,j
@@ -104,21 +102,20 @@ void a_star(VVI &grid, ii src, ii dst)
         pq.erase(pq.begin());
         i = p.se.fi, j = p.se.se;
         visited[i][j] = true;
-        bool finished = try_go_to(grid, i, j, i - 1, j, cells, pq, visited, dst, dstFound); // North
+        bool finished = try_go_to(grid, i, j, i - 1, j, cells, pq, visited, dst); // North
         if (finished)
             return;
-        finished = try_go_to(grid, i, j, i + 1, j, cells, pq, visited, dst, dstFound); // South
+        finished = try_go_to(grid, i, j, i + 1, j, cells, pq, visited, dst); // South
         if (finished)
             return;
-        finished = try_go_to(grid, i, j, i, j - 1, cells, pq, visited, dst, dstFound); // West
+        finished = try_go_to(grid, i, j, i, j - 1, cells, pq, visited, dst); // West
         if (finished)
             return;
-        finished = try_go_to(grid, i, j, i, j + 1, cells, pq, visited, dst, dstFound); // East
+        finished = try_go_to(grid, i, j, i, j + 1, cells, pq, visited, dst); // East
         if (finished)
             return;
     }
-    if (!dstFound)
-        printf("Failed to find path from (%d,%d) to (%d,%d)\n", src.fi, src.se, dst.fi, dst.se);
+    printf("Failed to find path from (%d,%d) to (%d,%d)\n", src.fi, src.se, dst.fi, dst.se);
 }
 
 int main()
