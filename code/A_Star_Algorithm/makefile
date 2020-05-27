@@ -1,5 +1,5 @@
 SRCS := $(shell find *.cpp)
-TARGET_EXEC ?= run
+TARGET_EXEC ?= run.out
 FLAGS ?= -g
 CC = g++
 
