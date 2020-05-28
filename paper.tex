@@ -10,6 +10,8 @@
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{pgfplots}
+\usepackage{subfigure}
+
 \pgfplotsset{compat=1.9}
 
 \pgfplotsset{
@@ -96,7 +98,82 @@ VLSI Routing, Global Routing, Routing Algorithms, Fast Global Routing, Fast Rout
 
 \section{Introduction}
 
-Scheduling is a crucial part of many real-time applications such as scheduling airlines and railways communications, product manufacturing processes, data packets routing in computer networks and pipe networks. Operating systems multiprocessing environments are no different from those mediums mentioned, where processes compete over CPU utilization. This brought to existence the need for scheduling algorithms to justly assign processes to available CPUs in favour of optimizing performance measures, in particular, to maximize overall CPU utilization and throughput, and to minimize response time, waiting time and turnaround time. A schedular could be preemptive where it can temporarily interrupt a process without its cooperation and assign the CPU resources to a different process with the intention to assign them back to the former process, such operation is called context switching, or it could be non-preemptive (cooperative) by not being able to context switch between processes. Various preemptive and non-preemptive scheduling disciplines exist such as, first come, first serve (FCFS), shortest job first (SJF), shortest remaining time first (SRTF), round-robin (RR), multilevel queue and multilevel feedback queue. In FCFS, processes are non-preemptively executed according to their arrival time. In SJF, the CPU is assigned to the process with the smallest burst time. SRTF is a preemptive version of SJF where at each iteration, the process with the least remaining burst time takes control of the CPU. Round-robin preemptively assigns the CPU to each process in the ready queue for a static amount of time called quantum and executes them in an FCFS fashion. Multilevel queue algorithm partitions the ready queue into several queues to which processes are perpetually assigned and are executed according to another scheduling algorithm (e.g. RR). Processes cannot move from one queue to another. However, in a multilevel feedback queue algorithm, processes that don't terminate in one queue, due to having CPU burst time more than the time quantum assigned to their particular queue, are shifted to a lower priority queue. Due to the fact that long processes eventually sink to the lowest priority queue, they are conventionally carried out using FCFS to prevent starvation. Several papers discuss different methods to optimize the algorithms mentioned, each come with their set of advantages and drawbacks. One of many is \cite{b2}, whose approach achieves better average response time but at the cost of hindering the scheduling process due to recalculating time quantum for each queue using a recurrent neural network. In this paper, we attempted to implement the best of all worlds.
+Routing is considered a critical step in physical design process. Until now we have not achieved the optimum solution for VLSI routing.It is exactly done in two steps:
+\begin{enumerate}
+    \item Global routing.
+    \item Detailed routing.
+\end{enumerate}
+We first run a global routing which is the responsible for making an approximate routing for the whole circuit in order to be used as a guide for detailed routing, then we run a detailed routing to make the exact routing for the system. That means if global or detailed routing is improved the whole routing process is improved, but there are many problems we have to overcome to make a correct routing process. First of all we have to take into consideration the scale, as millions of wires are exist in a small chip area which means that many kilometers of wires are placed in a very small area, so we have to minimize total wire length as much as we can, also we know that as the wire length increases the resistance increases as well which means more delay in the chip. We can find another problem as circuits are done in nano-scale which means that its geometric will be complex. Another problem that routing algorithm have to be applicable for more than one layer with different costs. We also have to take into consideration the direction of wires in every layer (vertical | horizontal) and no diagonal pathes, then to go from source 'S' to target 'T'
+
+\begin{figure} 
+\centering  
+\subfigure[First iteration] {
+    \begin{tikzpicture}
+        [
+            box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
+        ]
+    
+    \foreach \x in {0,0.5,...,2.5}{
+        \foreach \y in {0,0.5,...,2.5}
+            \node[box] at (\x,\y){};
+    }
+    
+    \node[box,fill=green] at (3,3){A};  
+    \node[box,fill=red  ] at (2,2){};  
+    \node[box,fill=blue ] at (1,1){};  
+    \end{tikzpicture}
+}
+\subfigure[Second iteration] {
+    \begin{tikzpicture}
+        [
+            box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
+        ]
+    
+    \foreach \x in {0,0.5,...,2.5}{
+        \foreach \y in {0,0.5,...,2.5}
+            \node[box] at (\x,\y){};
+    }
+    
+    \node[box,fill=green] at (3,3){A};  
+    \node[box,fill=red  ] at (2,2){};  
+    \node[box,fill=blue ] at (1,1){};  
+    \end{tikzpicture}
+}
+\subfigure[Third iteration] {
+    \begin{tikzpicture}
+        [
+            box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
+        ]
+    
+    \foreach \x in {0,0.5,...,2.5}{
+        \foreach \y in {0,0.5,...,2.5}
+            \node[box] at (\x,\y){};
+    }
+    
+    \node[box,fill=green] at (3,3){A};  
+    \node[box,fill=red  ] at (2,2){};  
+    \node[box,fill=blue ] at (1,1){};  
+    \end{tikzpicture}
+}
+\subfigure[After N iteration] {
+    \begin{tikzpicture}
+        [
+            box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
+        ]
+    
+    \foreach \x in {0,0.5,...,2.5}{
+        \foreach \y in {0,0.5,...,2.5}
+            \node[box] at (\x,\y){};
+    }
+    
+    \node[box,fill=green] at (3,3){A};  
+    \node[box,fill=red  ] at (2,2){};  
+    \node[box,fill=blue ] at (1,1){};  
+    \end{tikzpicture}
+}
+
+\end{figure}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RELATED WORK %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -822,27 +899,9 @@ The goal of this paper is to tackle different shortcomings associated with the s
 
 \begin{thebibliography}{00}
 
-\bibitem{b1} H.S. Behera, Reena Kumari Naik, Suchilagna Parida, ``Improved multilevel feedback queue scheduling using dynamic time quantum and its performance analysis'', \textit{International Journal of Computer Science and Information Technologies}, vol. 3, no. 2, 2012, pp. 3801-3807.
+\bibitem{b1} Muhammet Mustafa Ozdal and M. D. F. Wong, "Archer: a history-driven global routing algorithm," \textit{2007 IEEE/ACM International Conference on Computer-Aided Design}, San Jose, CA, 2007, pp. 488-495, doi: 10.1109/ICCAD.2007.4397312.
 
-\bibitem{b2} MohammadReza EffatParvar, Karim Faez, Mehdi EffatParvar, Mehdi Zarei, Saeed Safari, ``An intelligent MLFQ scheduling algorithm (IMLFQ) with fault tolerant mechanism'', \textit{Sixth International Conference on Intelligent Systems Design and Applications}, vol. 3, 2006, pp. 80–85.
 
-\bibitem{b3} Rakesh Mohanty, H. S. Behera, Khusbu Patwari, Monisha Dash, ``Design and performance evaluation of a new proposed shortest remaining burst round robin (SRBRR) scheduling algorithm'', \textit{International Symposium on Computer Engineering \& Technology}, vol. 17, 2010.
-
-\bibitem{b4} S. K. Dwivedi and R. Gupta, ``A simulator based performance analysis of multilevel feedback queue scheduling'', \textit{2014 International Conference on Computer and Communication Technology (ICCCT)}, Allahabad, 2014, pp. 341-346.
-
-\bibitem{b5} Malhar Thombare, Rajiv Sukhwani, Priyam Shah, Sheetal Chaudhari, Pooja Raundale, ``Efficient implementation of multilevel feedback queue scheduling'', \textit{2016 International Conference on Wireless Communications, Signal Processing and Networking (WiSPNET)}, Chennai, 2016, pp. 1950–1954.
-
-\bibitem{b6} S. Raheja, R. Dadhich, and S. Rajpalc, ``Designing of vague logic based multilevel feedback queue scheduler'', \textit{Egyptian Informatics Journal}, vol. 17, 2016, pp. 125-137.
-
-\bibitem{b7} A. Alsheikhy, R. Ammar and R. Elfouly, ``An improved dynamic Round Robin scheduling algorithm based on a variant quantum time'', \textit{2015 11th International Computer Engineering Conference (ICENCO)}, Cairo, 2015, pp. 98-104.
-
-\bibitem{b8} M. K. Mishra and F. Rashid, ``An improved round robin CPU scheduling algorithm with varying time quantum'', \textit{International Journal of Computer Science, Engineering and Applications  (IJCSEA)}, vol. 4, 2014.
-
-\bibitem{b9} A. Singh, P. Goyal and S. Batra, ``An optimized round robin scheduling algorithm for CPU scheduling'', \textit{International Journal on Computer Science and Engineering}, 2010, pp. 2383-2385.
-
-\bibitem{b10} Dipto Biswas, Md. Samsuddoha, ``Determining proficient time quantum to  improve the performance  of  round  robin  scheduling  algorithm'', \textit{International  Journal  of  Modern  Education  and  Computer Science(IJMECS)}, vol. 11, 2019, pp. 33-40.
-
-\bibitem{b11} K. Hoganson and J. Brown, ``Real-time scheduling with MLFQ-RT multilevel feedback queue with starvation mitigation'', \textit{2017 International Conference on Engineering, Technology and Innovation (ICE/ITMC)}, Funchal, 2017, pp. 155-160.
 
 \end{thebibliography}
 
