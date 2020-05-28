@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.5.26)  27 MAY 2020 16:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.5.26)  29 MAY 2020 01:05
 entering extended mode
-**"e:/Muhanad/CUFE/Third year/2nd Semester/VLSI/Final Assessment/Paper/paper.tex"
-("e:/Muhanad/CUFE/Third year/2nd Semester/VLSI/Final Assessment/Paper/paper.tex"
+**"e:/Muhanad/CUFE/Third year/2nd Semester/VLSI/Final Assessment/global-routing-algorithm/paper.tex"
+("e:/Muhanad/CUFE/Third year/2nd Semester/VLSI/Final Assessment/global-routing-algorithm/paper.tex"
 LaTeX2e <2020-02-02> patch level 5
-L3 programming layer <2020-05-15> ("e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\Paper\IEEEtran.cls"
+L3 programming layer <2020-05-15> ("e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\global-routing-algorithm\IEEEtran.cls"
 Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
 -- See the "IEEEtran_HOWTO" manual for usage information.
 -- http://www.michaelshell.org/tex/ieeetran/
@@ -463,41 +463,60 @@ Package: pgfplots 2020/02/29 v1.17 Data Visualization (1.17)
 File: tikzlibraryplotmarks.code.tex 2020/01/08 v3.1.5b (3.1.5b)
  ("C:\Program Files\MiKTeX 2.9\tex/generic/pgf/libraries\pgflibraryplotmarks.code.tex"
 File: pgflibraryplotmarks.code.tex 2020/01/08 v3.1.5b (3.1.5b)
-))) ("C:\Program Files\MiKTeX 2.9\tex/latex/l3backend\l3backend-pdfmode.def"
+))) ("C:\Program Files\MiKTeX 2.9\tex/latex/subfigure\subfigure.sty"
+Package: subfigure 2002/07/30 v2.1.4 subfigure package
+\subfigtopskip=\skip56
+\subfigcapskip=\skip57
+\subfigcaptopadj=\dimen290
+\subfigbottomskip=\skip58
+\subfigcapmargin=\dimen291
+\subfiglabelskip=\skip59
+\c@subfigure=\count297
+\c@lofdepth=\count298
+\c@subtable=\count299
+\c@lotdepth=\count300
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+("C:\Program Files\MiKTeX 2.9\tex/latex/subfigure\subfigure.cfg")
+\subfig@top=\skip60
+\subfig@bottom=\skip61
+) ("C:\Program Files\MiKTeX 2.9\tex/latex/l3backend\l3backend-pdfmode.def"
 File: l3backend-pdfmode.def 2020-05-05 L3 backend support: PDF mode
-\l__kernel_color_stack_int=\count297
+\l__kernel_color_stack_int=\count301
 \l__pdf_internal_box=\box63
-) ("e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\Paper\paper.aux")
+) ("e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\global-routing-algorithm\paper.aux")
 \openout1 = `paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
 
 -- Lines per column: 56 (exact).
 ABD: EveryShipout initializing macros ("C:\Program Files\MiKTeX 2.9\tex/context/base/mkii\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count298
-\scratchdimen=\dimen290
+\scratchcounter=\count302
+\scratchdimen=\dimen292
 \scratchbox=\box64
-\nofMPsegments=\count299
-\nofMParguments=\count300
+\nofMPsegments=\count303
+\nofMParguments=\count304
 \everyMPshowfont=\toks41
-\MPscratchCnt=\count301
-\MPscratchDim=\dimen291
-\MPnumerator=\count302
-\makeMPintoPDFobject=\count303
+\MPscratchCnt=\count305
+\MPscratchDim=\dimen293
+\MPnumerator=\count306
+\makeMPintoPDFobject=\count307
 \everyMPtoPDFconversion=\toks42
 ) ("C:\Program Files\MiKTeX 2.9\tex/latex/epstopdf-pkg\epstopdf-base.sty"
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -505,26 +524,26 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 )
 Package pgfplots notification 'compat/show suggested version=true': you might benefit from \pgfplotsset{compat=1.17} (current compat level: 1.9).
 
-LaTeX Font Info:    Calculating math sizes for size <11> on input line 75.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 75.
+LaTeX Font Info:    Calculating math sizes for size <11> on input line 77.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 77.
 ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsa.fd"
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 75.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 77.
  ("C:\Program Files\MiKTeX 2.9\tex/latex/amsfonts\umsb.fd"
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Overfull \hbox (17.47864pt too wide) in paragraph at lines 75--75
+Overfull \hbox (17.47864pt too wide) in paragraph at lines 77--77
  [] 
  []
 
 
-Overfull \hbox (17.47864pt too wide) in paragraph at lines 75--75
+Overfull \hbox (17.47864pt too wide) in paragraph at lines 77--77
  [] 
  []
 
 
-Overfull \hbox (17.47864pt too wide) in paragraph at lines 75--75
+Overfull \hbox (17.47864pt too wide) in paragraph at lines 77--77
  [] 
  []
 
@@ -532,24 +551,20 @@ Overfull \hbox (17.47864pt too wide) in paragraph at lines 75--75
 
 
 ]
-Overfull \hbox (18.69524pt too wide) in paragraph at lines 155--156
+Overfull \hbox (18.69524pt too wide) in paragraph at lines 272--273
 [][] 
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
+ [2]
 Underfull \vbox (badness 4673) has occurred while \output is active []
 
- [2]
+
 Overfull \vbox (20.52461pt too high) has occurred while \output is active []
 
- [3] [4] [5] [6]
-Underfull \hbox (badness 1776) in paragraph at lines 827--828
-\OT1/ptm/m/n/8 Zarei, Saeed Sa-fari, ``An in-tel-li-gent MLFQ schedul-ing al-go-rithm
- []
-
+ [3] [4] [5] [6] [7]
 
 ** Conference Paper **
 Before submitting the final camera ready copy, remember to:
@@ -561,19 +576,21 @@ Before submitting the final camera ready copy, remember to:
  uses only Type 1 fonts and that every step in the generation
  process uses the appropriate paper size.
 
-[7] ("e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\Paper\paper.aux") ) 
+[8
+
+] ("e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\global-routing-algorithm\paper.aux") ) 
 Here is how much of TeX's memory you used:
- 25768 strings out of 480799
- 655285 string characters out of 2905522
- 1042241 words of memory out of 3000000
- 41376 multiletter control sequences out of 15000+200000
+ 25921 strings out of 480799
+ 657764 string characters out of 2905522
+ 1069240 words of memory out of 3000000
+ 41523 multiletter control sequences out of 15000+200000
  577112 words of font info for 112 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 63i,19n,108p,2792b,2368s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 63i,19n,108p,2212b,2368s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\Paper\paper.pdf" (7 pages, 173686 bytes).
+Output written on "e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\global-routing-algorithm\paper.pdf" (8 pages, 171910 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
+ 81 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
