@@ -102,7 +102,7 @@ Routing is critical step in physical design process. Until now the optimum solut
 
 \begin{figure} 
 \centering  
-\subfigure[First iteration] {
+\subfigure[Before routing] {
     \begin{tikzpicture}
         [
             box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
@@ -112,13 +112,13 @@ Routing is critical step in physical design process. Until now the optimum solut
         \foreach \y in {0,0.5,...,2.5}
             \node[box] at (\x,\y){};
     }
-    \node [box,fill=green] at (0,0.5){A};  
-    \node[box,fill=green] at (3,3){A};  
-    \node[box,fill=red  ] at (2,2){};  
-    \node[box,fill=blue ] at (1,1){};  
+    \node [box,fill=green] at (0,0.5){A};
+    \node[box,fill=green  ] at (2,2){A};  
+    \node[box,fill=red  ] at (1.5,2.5){B}; 
+    \node [box,fill=red] at (2.5,0.5){B}; 
     \end{tikzpicture}
 }
-\subfigure[Second iteration] {
+\subfigure[Iteration number x] {
     \begin{tikzpicture}
         [
             box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
@@ -129,12 +129,22 @@ Routing is critical step in physical design process. Until now the optimum solut
             \node[box] at (\x,\y){};
     }
     
-    \node[box,fill=green] at (3,3){A};  
-    \node[box,fill=red  ] at (2,2){};  
-    \node[box,fill=blue ] at (1,1){};  
+    \node [box,fill=green] at (0,0.5){A};
+    \node[box,fill=green  ] at (2,2){A};  
+    \node[box,fill=green  ] at (0.5,0.5){};  
+    \node[box,fill=green  ] at (0.5,1){};  
+    \node[box,fill=green  ] at (0.5,1.5){};  
+    \node[box,fill=green  ] at (1,1.5){};  
+    \node[box,fill=red  ] at (1.5,2.5){B}; 
+    \node [box,fill=red] at (2.5,0.5){B};
+    \node [box,fill=red] at (2,0.5){};
+    \node [box,fill=red] at (1.5,0.5){};
+    \node [box,fill=red] at (1.5,1){};
+    \node [box,fill=red] at (1.5,1.5){};
+    \node [box,fill=red] at (1.5,2){};
     \end{tikzpicture}
 }
-\subfigure[Third iteration] {
+\subfigure[Iteration number y] {
     \begin{tikzpicture}
         [
             box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
@@ -145,9 +155,29 @@ Routing is critical step in physical design process. Until now the optimum solut
             \node[box] at (\x,\y){};
     }
     
-    \node[box,fill=green] at (3,3){A};  
-    \node[box,fill=red  ] at (2,2){};  
-    \node[box,fill=blue ] at (1,1){};  
+    \node [box,fill=green] at (0,0.5){A};
+    \node[box,fill=green  ] at (2,2){A};  
+    \node[box,fill=green  ] at (0,1){};  
+    \node[box,fill=green  ] at (0,1.5){};  
+    \node[box,fill=green  ] at (0,2){};  
+    \node[box,fill=green  ] at (0.5,2){};  
+    \node[box,fill=green  ] at (1,2){};  
+    \node[box,fill=green  ] at (1,1.5){};  
+    \node[box,fill=green  ] at (1,1){};  
+    \node[box,fill=green  ] at (1,0.5){};  
+    \node[box,fill=green  ] at (1.5,0){};  
+    \node[box,fill=green  ] at (1,0){};  
+    \node[box,fill=green  ] at (2,0){};  
+    \node[box,fill=green  ] at (2,0.5){};  
+    \node[box,fill=green  ] at (2,1){};  
+    \node[box,fill=green  ] at (2,1.5){};  
+    \node[box,fill=red  ] at (1.5,2.5){B}; 
+    \node [box,fill=red] at (2.5,0.5){B};  
+    \node [box,fill=red] at (2.5,1){};
+    \node [box,fill=red] at (2.5,1.5){};
+    \node [box,fill=red] at (2.5,2){};
+    \node [box,fill=red] at (2.5,2.5){};
+    \node [box,fill=red] at (2,2.5){};
     \end{tikzpicture}
 }
 \subfigure[After N iteration] {
@@ -161,16 +191,28 @@ Routing is critical step in physical design process. Until now the optimum solut
             \node[box] at (\x,\y){};
     }
     
-    \node[box,fill=green] at (3,3){A};  
-    \node[box,fill=red  ] at (2,2){};  
-    \node[box,fill=blue ] at (1,1){};  
+    \node [box,fill=green] at (0,0.5){A};
+    \node[box,fill=green  ] at (2,2){A};  
+    \node[box,fill=green  ] at (0,1){};  
+    \node[box,fill=green  ] at (0,1.5){};  
+    \node[box,fill=green  ] at (0,2){};  
+    \node[box,fill=green  ] at (0.5,2){};  
+    \node[box,fill=green  ] at (1,2){};  
+    \node[box,fill=green  ] at (1.5,2){};  
+    \node[box,fill=red  ] at (1.5,2.5){B}; 
+    \node [box,fill=red] at (2.5,0.5){B}; 
+    \node [box,fill=red] at (2.5,1){};
+    \node [box,fill=red] at (2.5,1.5){};
+    \node [box,fill=red] at (2.5,2){};
+    \node [box,fill=red] at (2.5,2.5){};
+    \node [box,fill=red] at (2,2.5){};
     \end{tikzpicture}
 }
-\caption{Steps to get the best global routing}
+\caption{Global routing to get the best pathes}
 \label{fig:GlobalRoutingProcess}
 \end{figure}
 
-In Figure~\ref{fig:GlobalRoutingProcess} 
+Figure~\ref{fig:GlobalRoutingProcess} shows a very simple approach of how the global router works. At (a) the source and target of both (A,B) need to be connected ignoring obstacles, nevertheless we can observe that the global router have to iterate to get the best routing pathes, at (b) (B,B) connected but there is no way to connect (A,A) as when (B,B) connected together they blocked the way for (A,A) to be connected, after some iterations we can find the figure at (c) in which (A,A) and (B,B) connected correctly, but there is a problem, the (A,A) connection is not the optimal path as there are pathes which achieve less wire length, so the global router have to iterate until reaching the optimal path. These iterations are done for only two connections in one layer without obstacles, then how about millions of wires in VLSI? this shows how much the global routing algorithm has to be very fast in order to connect this huge number of wires as fast as possible.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
