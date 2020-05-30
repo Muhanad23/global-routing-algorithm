@@ -20,6 +20,13 @@ public:
     friend ostream &operator<<(ostream &os, const Solution &sol);
 };
 
+class Costs {
+public:
+    db::CostT g_cost;
+    db::CostT f_cost;  // g_cost + h_cost
+    db::CostT h_cost;
+    Costs(db::CostT gc, db::CostT hc, db::CostT fc) : g_cost(gc), h_cost(hc), f_cost(fc) {}
+};
 class MazeRoute {
 public:
     MazeRoute(gr::GrNet &grNetData) : grNet(grNetData) {}
@@ -33,7 +40,7 @@ private:
     GridGraph graph;
 
     // h_cost first // f_cost second // min cost upper bound for each vertex
-    vector<std::pair<db::CostT, db::CostT>> vertexCosts;
+    vector<Costs> vertexCosts;
     vector<std::shared_ptr<Solution>> pinSols;  // best solution for each pin
     vector<vector<gr::PointOnLayer>> mergedPinAccessBoxes;
 

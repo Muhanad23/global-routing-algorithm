@@ -21,8 +21,7 @@ void MazeRoute::constructGridGraph(const CongestionMap &congMap) {
 }
 
 db::RouteStatus MazeRoute::run() {
-    vertexCosts.assign(graph.getNodeNum(),
-                       {std::numeric_limits<db::CostT>::max(), std::numeric_limits<db::CostT>::max()});
+    vertexCosts.assign(graph.getNodeNum(), Costs(FLT_MAX, FLT_MAX, FLT_MAX));
     pinSols.assign(mergedPinAccessBoxes.size(), nullptr);
     const int startPin = 0;
 
@@ -46,11 +45,16 @@ db::RouteStatus MazeRoute::route(int startPin) {
 
     auto updateSol = [&](const std::shared_ptr<Solution> &sol) {
         solQueue.push(sol);
-        if (sol->f_cost < vertexCosts[sol->vertex].second) vertexCosts[sol->vertex] = {sol->h_cost, sol->f_cost};
+        if (sol->f_cost < vertexCosts[sol->vertex].f_cost)
+            vertexCosts[sol->vertex] = Costs(sol->g_cost, sol->h_cost, sol->f_cost);
     };
-
-    auto heuristic = [](const gr::PointOnLayer &p1, const gr::PointOnLayer &p2) {
-        return std::sqrt(std::pow(p1.x - p2.x, 2) + std::pow(p1.y - p2.y, 2));
+    const double HEURISTIC_CONST1 = 1;
+    const double HEURISTIC_CONST2 = 0.3;
+    auto heuristic = [&HEURISTIC_CONST1, &HEURISTIC_CONST2](
+                         const gr::PointOnLayer &p1, const int &layer1, const gr::PointOnLayer &p2, const int &layer2) {
+        // return std::sqrt(std::pow(p1.x - p2.x, 2) + std::pow(p1.y - p2.y, 2));
+        return (std::abs(p1.x - p2.x) + std::abs(p1.y - p2.y)) * HEURISTIC_CONST1 +
+               std::abs(layer1 - layer2) * HEURISTIC_CONST2;
     };
 
     // init from startPin
@@ -58,11 +62,7 @@ db::RouteStatus MazeRoute::route(int startPin) {
         gr::PointOnLayer s = graph.getPoint(startPin);
         updateSol(std::make_shared<Solution>(0, vertex, nullptr));
     }
-    /*
-    A star
-        //   source.g_cost = 0;
-        //   source.f_cost = source.h_cost;
-    */
+
     std::unordered_set<int> visitedPin = {startPin};
     int nPinToConnect = mergedPinAccessBoxes.size() - 1;
 
@@ -85,7 +85,7 @@ db::RouteStatus MazeRoute::route(int startPin) {
             }
 
             // pruning by upper bound
-            if (vertexCosts[u].second < current->f_cost) continue;
+            if (vertexCosts[u].g_cost < current->g_cost) continue;
 
             const db::MetalLayer &uLayer = database.getLayer(graph.getPoint(u).layerIdx);
 
@@ -95,49 +95,18 @@ db::RouteStatus MazeRoute::route(int startPin) {
                     continue;
 
                 // from u to v
-                int v = graph.getEdgeEndPoint(u, direction);  // Node neigh = edge.target;
+                int v = graph.getEdgeEndPoint(u, direction);
                 db::CostT cost = graph.getEdgeCost(u, direction);
 
                 gr::PointOnLayer nextPoint = graph.getPoint(v);
                 gr::PointOnLayer dst = graph.getPoint(dstPinIdx);
-                // edge cost
 
-                // db::CostT newCost = w + current->cost;  // double newCost = current.g_cost + cost;
-
-                vertexCosts[v].first = heuristic(nextPoint, dst);
+                vertexCosts[v].h_cost = heuristic(nextPoint, nextPoint.layerIdx, dst, dst.layerIdx);
                 db::CostT newCost_g = current->g_cost + cost;
-                db::CostT newCost_f = vertexCosts[v].first + newCost_g;  // vertexCosts[v].first = neighbour_h_cost
+                db::CostT newCost_f = vertexCosts[v].h_cost + newCost_g;  // vertexCosts[v].first = neighbour_h_cost
 
-                /**
-                 * A star
-                 *
-                 *  Node neigh = edge.target; // neigh (v)
-
-                    double cost = edge.cost; // cost (w)
-
-                    double new_g_cost = current.g_cost + cost;
-
-                    double new_f_cost = neigh.h_cost + new_g_cost;
-                */
-
-                if (newCost_f < vertexCosts[v].second)
-                    updateSol(std::make_shared<Solution>(newCost_g, vertexCosts[v].first, newCost_f, v, current));
-                // if (newCost < vertexCosts[v]) updateSol(std::make_shared<Solution>(newCost, v, newSol));
-                /*
-                if (newCost < neigh.g_cost) {
-                    neigh.parent = current;
-
-                    neigh.g_cost = newCost;
-
-                    // reset frontier order
-
-                    if (frontier.contains(neigh)) {
-                        frontier.remove(neigh);
-                    }
-
-                    frontier.add(neigh);
-                }
-                 */
+                if (newCost_f < vertexCosts[v].f_cost)
+                    updateSol(std::make_shared<Solution>(newCost_g, vertexCosts[v].h_cost, newCost_f, v, current));
             }
         }
 
