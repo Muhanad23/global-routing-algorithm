@@ -1585,9 +1585,12 @@ we implement global routing with A_Star router algorithm in c++ language
  and the number of vias that represent the bends in the tree that result
  in solving the net of pins to be connected.our test cases input are all
  from ICCAD'19 contest for global routing.we test our code with different
- heurestic function -that affect the run time of A*- to check its effect
- on CPU time.our concern is on wire-lengh and number of vias result from
- routing.
+ heurestic functions -that affect the run time of A*- to check its effect
+ on CPU run time.our concern is on wire-lengh and number of vias result from
+ routing without increasing infeasibility.we generate the trees of all nets
+ in parallel to reduce running by using multi-threaded approach to generate
+ the net results tree as this step has the most costly part of the router
+ algorithm.
 \end_layout
 
 \begin_layout Subsubsection
@@ -1596,8 +1599,9 @@ Experiment1
 
 \begin_layout Standard
 in this experiment we compare run time of router with dijkstra Router and
- out A* router with heurestic function with differents constants of heurestic
- functions that affect the run time of the router:
+ out A* router with heuristic function with differents constants of heuristic
+ functions that affect the run time of the router.heuristic function help
+ us to know how near the point to the target point:
 \end_layout
 
 \begin_layout Standard
@@ -1641,8 +1645,25 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Compare run time of Dijkstra router and A* router with different heuristic
- function
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Compare-run-time"
+
+\end_inset
+
+Compare run time of Dijkstra router and A* router with 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Heurestic-Fucntion1
 \end_layout
 
 \end_inset
@@ -1651,14 +1672,12 @@ Compare run time of Dijkstra router and A* router with different heuristic
 \end_layout
 
 \begin_layout Plain Layout
+\align center
 
-\size tiny
+\size scriptsize
 \begin_inset Tabular
-<lyxtabular version="3" rows="9" columns="9">
+<lyxtabular version="3" rows="8" columns="6">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -1671,28 +1690,19 @@ Compare run time of Dijkstra router and A* router with different heuristic
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 Design
 \end_layout
 
 \end_inset
 </cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\size tiny
-A* Router
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+\size scriptsize
+A*
 \end_layout
 
 \end_inset
@@ -1724,116 +1734,13 @@ A* Router
 
 \end_inset
 </cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" usebox="none">
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="center" valignment="top" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-F1
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-F2
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+\size scriptsize
+Dijkstra
 \end_layout
 
 \end_inset
@@ -1854,18 +1761,7 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
-(0.1,0.1)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 (0.2,0.1)
 \end_layout
 
@@ -1876,7 +1772,7 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 (0.3,0.3)
 \end_layout
 
@@ -1887,52 +1783,28 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 (0.5,0.5)
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\size tiny
-(0.1,0.1)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-(0.2,0.1)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-(0.3,0.3)
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 (0.5,0.5)
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
 \end_layout
 
 \end_inset
@@ -1944,8 +1816,8 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
-19test2
+\size scriptsize
+test1
 \end_layout
 
 \end_inset
@@ -1955,18 +1827,7 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
-87.150469
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 75.843764
 \end_layout
 
@@ -1977,7 +1838,7 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 87.797614
 \end_layout
 
@@ -1988,52 +1849,30 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 87.086193
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\size tiny
-90.440165
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-93.288501
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-89.414646
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 96.377979
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+91.348007
 \end_layout
 
 \end_inset
@@ -2045,8 +1884,8 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
-19test3
+\size scriptsize
+test2
 \end_layout
 
 \end_inset
@@ -2056,18 +1895,7 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
-2.489458
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 2.511599
 \end_layout
 
@@ -2078,7 +1906,7 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2.606054
 \end_layout
 
@@ -2089,52 +1917,30 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2.874605
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\size tiny
-2.461400
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-2.469304
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-2.480592
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 2.497377
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+3.435606
 \end_layout
 
 \end_inset
@@ -2146,8 +1952,8 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
-19test5
+\size scriptsize
+test3
 \end_layout
 
 \end_inset
@@ -2157,18 +1963,7 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
-13.785204
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 12.381436
 \end_layout
 
@@ -2179,7 +1974,7 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 14.959666
 \end_layout
 
@@ -2190,52 +1985,30 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 14.859677
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\size tiny
-12.264829
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-13.449206
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-12.039944
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 14.766495
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+11.824573
 \end_layout
 
 \end_inset
@@ -2247,8 +2020,8 @@ F2
 
 \begin_layout Plain Layout
 
-\size tiny
-sample
+\size scriptsize
+test4
 \end_layout
 
 \end_inset
@@ -2258,18 +2031,7 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
-0.221261
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 0.075472
 \end_layout
 
@@ -2280,7 +2042,7 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.073069
 \end_layout
 
@@ -2291,52 +2053,30 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.073769
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\size tiny
-0.071577
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-0.157244
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-0.078624
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 0.072691
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.071829
 \end_layout
 
 \end_inset
@@ -2348,8 +2088,8 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
-sample2
+\size scriptsize
+test5
 \end_layout
 
 \end_inset
@@ -2359,18 +2099,7 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
-0.096618
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 0.073988
 \end_layout
 
@@ -2381,7 +2110,7 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.072911
 \end_layout
 
@@ -2392,52 +2121,30 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.074165
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\size tiny
-0.078316
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-0.090906
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-0.071333
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 0.072767
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.071945
 \end_layout
 
 \end_inset
@@ -2449,8 +2156,8 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
-sample3
+\size scriptsize
+test6
 \end_layout
 
 \end_inset
@@ -2460,18 +2167,7 @@ sample3
 
 \begin_layout Plain Layout
 
-\size tiny
-7.002814
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 6.948016
 \end_layout
 
@@ -2482,7 +2178,7 @@ sample3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 6.266789
 \end_layout
 
@@ -2493,52 +2189,30 @@ sample3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 5.198969
 \end_layout
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
 
-\size tiny
-6.893310
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-6.400888
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-6.974920
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
+\size scriptsize
 6.906992
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+7.0385
 \end_layout
 
 \end_inset
@@ -2567,13 +2241,28 @@ status open
 \end_layout
 
 \begin_layout Plain Layout
-
-\size tiny
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Continue compare run time of Dijkstra router and A* router with different
- heuristic function
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Compare-run-time-1"
+
+\end_inset
+
+Compare run time of Dijkstra router and A* router with 
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Heurestic-Fucntion2
 \end_layout
 
 \end_inset
@@ -2582,10 +2271,11 @@ Continue compare run time of Dijkstra router and A* router with different
 \end_layout
 
 \begin_layout Plain Layout
+\align center
 
-\size tiny
+\size scriptsize
 \begin_inset Tabular
-<lyxtabular version="3" rows="9" columns="6">
+<lyxtabular version="3" rows="8" columns="6">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -2599,7 +2289,7 @@ Continue compare run time of Dijkstra router and A* router with different
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 Design
 \end_layout
 
@@ -2610,7 +2300,604 @@ Design
 
 \begin_layout Plain Layout
 
+\size scriptsize
+A*
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Dijkstra
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+(0.1,0.1)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+(0.2,0.1)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+(0.3,0.3)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+(0.5,0.5)
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="4" alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+test1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+90.440165
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+93.288501
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+89.414646
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+96.377979
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+91.348007
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+test2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+2.461400
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+2.469304
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+2.480592
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+2.497377
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+3.435606
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+test3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+12.264829
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+13.449206
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+12.039944
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+14.766495
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+11.824573
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+test4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.071577
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.157244
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.078624
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.072691
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.071829
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+test5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.078316
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.090906
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.071333
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.072767
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+0.071945
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+test6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+6.893310
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+6.400888
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+6.974920
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+6.906992
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+7.038505
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
 \size tiny
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Continue-compare-run"
+
+\end_inset
+
+ compare run time of Dijkstra router and A* router with
+\family roman
+\series medium
+\shape up
+\size normal
+\emph off
+\bar no
+\strikeout off
+\uuline off
+\uwave off
+\noun off
+\color none
+Heurestic-Fucntion3
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+
+\size scriptsize
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="6">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
+Design
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size scriptsize
 A* Router
 \end_layout
 
@@ -2648,66 +2935,8 @@ A* Router
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 Dijkstra
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\size tiny
-F3
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell multirow="4" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
 \end_layout
 
 \end_inset
@@ -2728,7 +2957,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 (0.1,0.1)
 \end_layout
 
@@ -2739,7 +2968,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 (0.2,0.1)
 \end_layout
 
@@ -2750,7 +2979,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 (0.3,0.3)
 \end_layout
 
@@ -2761,7 +2990,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 (0.5,0.5)
 \end_layout
 
@@ -2783,8 +3012,8 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
-19test2
+\size scriptsize
+test1
 \end_layout
 
 \end_inset
@@ -2794,7 +3023,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 86.598509
 \end_layout
 
@@ -2805,7 +3034,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 83.204272
 \end_layout
 
@@ -2816,7 +3045,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 103.166426
 \end_layout
 
@@ -2827,7 +3056,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 102.378304
 \end_layout
 
@@ -2838,7 +3067,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 91.348007
 \end_layout
 
@@ -2851,8 +3080,8 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
-19test3
+\size scriptsize
+test2
 \end_layout
 
 \end_inset
@@ -2862,7 +3091,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2.481847
 \end_layout
 
@@ -2873,7 +3102,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2.486656
 \end_layout
 
@@ -2884,7 +3113,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 3.622759
 \end_layout
 
@@ -2895,7 +3124,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2.556863
 \end_layout
 
@@ -2906,7 +3135,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 3.435606
 \end_layout
 
@@ -2919,8 +3148,8 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
-19test5
+\size scriptsize
+test3
 \end_layout
 
 \end_inset
@@ -2930,7 +3159,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 12.655603
 \end_layout
 
@@ -2941,7 +3170,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 15.447421
 \end_layout
 
@@ -2952,7 +3181,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 15.629251
 \end_layout
 
@@ -2963,7 +3192,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 20.004493
 \end_layout
 
@@ -2974,7 +3203,7 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 11.824573
 \end_layout
 
@@ -2987,8 +3216,8 @@ F3
 
 \begin_layout Plain Layout
 
-\size tiny
-sample
+\size scriptsize
+test4
 \end_layout
 
 \end_inset
@@ -2998,7 +3227,7 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.073731
 \end_layout
 
@@ -3009,7 +3238,7 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.070911
 \end_layout
 
@@ -3020,7 +3249,7 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.073468
 \end_layout
 
@@ -3031,7 +3260,7 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.103421
 \end_layout
 
@@ -3042,7 +3271,7 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.071829
 \end_layout
 
@@ -3055,8 +3284,8 @@ sample
 
 \begin_layout Plain Layout
 
-\size tiny
-sample2
+\size scriptsize
+test5
 \end_layout
 
 \end_inset
@@ -3066,7 +3295,7 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.078171
 \end_layout
 
@@ -3077,7 +3306,7 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.079362
 \end_layout
 
@@ -3088,7 +3317,7 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.088107
 \end_layout
 
@@ -3099,7 +3328,7 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.099699
 \end_layout
 
@@ -3110,7 +3339,7 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 0.071945
 \end_layout
 
@@ -3123,8 +3352,8 @@ sample2
 
 \begin_layout Plain Layout
 
-\size tiny
-sample3
+\size scriptsize
+test6
 \end_layout
 
 \end_inset
@@ -3134,7 +3363,7 @@ sample3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 6.470339
 \end_layout
 
@@ -3145,7 +3374,7 @@ sample3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 7.195767
 \end_layout
 
@@ -3156,7 +3385,7 @@ sample3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 8.455288
 \end_layout
 
@@ -3167,7 +3396,7 @@ sample3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 7.637577
 \end_layout
 
@@ -3178,7 +3407,7 @@ sample3
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 7.038505
 \end_layout
 
@@ -3192,24 +3421,41 @@ sample3
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
 \end_layout
 
 \begin_layout Standard
-we notice from Table 1,Table 2 that heurestric function affect run time
- of router ,decreases it to be lower than dijkstra router's run time in
- many test cases.
- run time changes with the change of heuristic function constants.
- we notice that higher constants increase the run time and sometimes be
- greater than dijkstra router's runtime.
- Heurestic function 2 has ovarall results which is good than others herestics
- function, with other Heurestic functions run time may improve mostly.
+we notice from Table
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Compare-run-time"
+
+\end_inset
+
+,Table
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Continue-compare-run"
+
+\end_inset
+
+,Table
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Compare-run-time-1"
+
+\end_inset
+
+ that heuristic function affect the running time of router ,decreases it
+ to be lower than dijkstra router's running time in many test cases.
+ the running time changes with the change of heuristic function constants.
+ we notice that higher constants increase the running time and sometimes
+ be greater than dijkstra router's runtime.
+ Heuristic function 2 has ovarall results which is better than others, with
+ using more efficient heurestic functions,run time and wire-length and vias
+ number combination may improve greatly.
  
 \end_layout
 
@@ -3220,7 +3466,14 @@ Performance Comparsions
 \begin_layout Standard
 we compare results of our algorithm which focus on factors - total wire-lenght,n
 umber of vias in the routing results - with TripleZ and NTUidRoute algorithms
- in ICCAD'19 Table 3 .threads number used in all cases is 8 threads.
+ in ICCAD'19 Table
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:compared-Wire-Lengh,vias"
+
+\end_inset
+
+ .threads number used in all cases is 8 threads.
  score used as unit to compare ,score of wire length is a function of metal
  pitch and wire length and weight:
 \end_layout
@@ -3257,6 +3510,12 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:compared-Wire-Lengh,vias"
+
+\end_inset
+
 compared Wire Lengh,vias with TripleZ and NTUidRoute Algorithms in ICCAD'19
  Global routing Contest 
 \end_layout
@@ -3267,8 +3526,9 @@ compared Wire Lengh,vias with TripleZ and NTUidRoute Algorithms in ICCAD'19
 \end_layout
 
 \begin_layout Plain Layout
+\align center
 
-\size tiny
+\size scriptsize
 \begin_inset Tabular
 <lyxtabular version="3" rows="8" columns="7">
 <features tabularvalignment="middle">
@@ -3285,7 +3545,7 @@ compared Wire Lengh,vias with TripleZ and NTUidRoute Algorithms in ICCAD'19
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 Design
 \end_layout
 
@@ -3296,7 +3556,7 @@ Design
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 wire-length scores
 \end_layout
 
@@ -3325,7 +3585,7 @@ wire-length scores
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 vias score
 \end_layout
 
@@ -3365,7 +3625,7 @@ vias score
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 TripleZ
 \end_layout
 
@@ -3376,7 +3636,7 @@ TripleZ
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 NTUidRoute
 \end_layout
 
@@ -3387,7 +3647,7 @@ NTUidRoute
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 ours
 \end_layout
 
@@ -3398,7 +3658,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 TripleZ
 \end_layout
 
@@ -3409,7 +3669,7 @@ TripleZ
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 NTUidRoute
 \end_layout
 
@@ -3420,7 +3680,7 @@ NTUidRoute
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 ours
 \end_layout
 
@@ -3433,8 +3693,8 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
-19test2
+\size scriptsize
+test1
 \end_layout
 
 \end_inset
@@ -3444,7 +3704,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 12485549.76
 \end_layout
 
@@ -3455,7 +3715,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 12992510.61
 \end_layout
 
@@ -3466,7 +3726,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 12150100
 \end_layout
 
@@ -3477,7 +3737,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 3261476.00
 \end_layout
 
@@ -3488,7 +3748,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 4017448.00
 \end_layout
 
@@ -3499,7 +3759,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2803560
 \end_layout
 
@@ -3512,8 +3772,8 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
-19test3
+\size scriptsize
+test2
 \end_layout
 
 \end_inset
@@ -3523,7 +3783,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 569622.01
 \end_layout
 
@@ -3534,7 +3794,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 466809.64
 \end_layout
 
@@ -3545,7 +3805,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 389460
 \end_layout
 
@@ -3556,7 +3816,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 251728.00
 \end_layout
 
@@ -3567,7 +3827,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 318404.00
 \end_layout
 
@@ -3578,7 +3838,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 176728
 \end_layout
 
@@ -3591,8 +3851,8 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
-19test4
+\size scriptsize
+test7
 \end_layout
 
 \end_inset
@@ -3602,7 +3862,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 17800019.36
 \end_layout
 
@@ -3613,7 +3873,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 15935101.91
 \end_layout
 
@@ -3624,7 +3884,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 14663400
 \end_layout
 
@@ -3635,7 +3895,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 4265744.00
 \end_layout
 
@@ -3646,7 +3906,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 4789488.00
 \end_layout
 
@@ -3657,7 +3917,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2666120
 \end_layout
 
@@ -3670,8 +3930,8 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
-19test5
+\size scriptsize
+test3
 \end_layout
 
 \end_inset
@@ -3681,7 +3941,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2859212.04
 \end_layout
 
@@ -3692,7 +3952,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2495661.79
 \end_layout
 
@@ -3703,7 +3963,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 2851900
 \end_layout
 
@@ -3714,7 +3974,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 695348.00
 \end_layout
 
@@ -3725,7 +3985,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 771328.00
 \end_layout
 
@@ -3736,7 +3996,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 446024
 \end_layout
 
@@ -3749,8 +4009,8 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
-19test7
+\size scriptsize
+test8
 \end_layout
 
 \end_inset
@@ -3760,7 +4020,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 74264784.88
 \end_layout
 
@@ -3771,7 +4031,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 65028116.52
 \end_layout
 
@@ -3782,7 +4042,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 70041500
 \end_layout
 
@@ -3793,7 +4053,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 19689760.00
 \end_layout
 
@@ -3804,7 +4064,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 23183264.00
 \end_layout
 
@@ -3815,7 +4075,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 12532800
 \end_layout
 
@@ -3828,7 +4088,7 @@ ours
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 Avg
 \end_layout
 
@@ -3839,7 +4099,7 @@ Avg
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 21595837.61
 \end_layout
 
@@ -3850,7 +4110,7 @@ Avg
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 19383640
 \end_layout
 
@@ -3861,7 +4121,7 @@ Avg
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 20019272
 \end_layout
 
@@ -3872,7 +4132,7 @@ Avg
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 5632811.2
 \end_layout
 
@@ -3883,7 +4143,7 @@ Avg
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 6615986.4
 \end_layout
 
@@ -3894,7 +4154,7 @@ Avg
 
 \begin_layout Plain Layout
 
-\size tiny
+\size scriptsize
 3725046.4
 \end_layout
 
@@ -3920,7 +4180,9 @@ Observation
 \begin_layout Standard
 our algorithm has wire-length score less than TripleZ with 7.3% and greater
  than NTUidRoute with 3.28% but it affect the vias number greatly that our
- vias score is less than NTUidRoute's vias score by 43%
+ vias score is less than NTUidRoute's vias score by 43% which we try to
+ decrease it as the vias is one of the sources of heat generation in the
+ chip.
 \end_layout
 
 \begin_layout Standard
@@ -3976,14 +4238,16 @@ Conclusion and Future Work
 
 \begin_layout Standard
 The goal of this paper is to develop A-star-based global Router with minimum
- wirelength and number of vias as the more vias number the more heat generated
+ wire-length and number of vias as the more vias number the more heat generated
  from the chip with minimum run time.to overcome the time problem we use
  heurestic function that decrease the run time of router and test it with
  different constants to define its affect on run time ,for future work we
- aim to define effective heurestic function to improve run time and using
- more effecient versions of A_star algorithm such as bi-directional A-star
- ,deep A-star,iterative deeping A-star .for instance bi-directional A-star
- that process edges in both directions that improve run time.
+ aim to define effective heurestic function to improve the running time.using
+ more effecient versions of A_star algorithm such as bi-directional A-star,itera
+tive deeping A-star also improve the running time of out algorithm .for instance
+ bi-directional A-star that processes edges in both directions that improve
+ the running time as well as it save the memory demand for path saving as
+ we will deal with both directions of edge.
 \end_layout
 
 \begin_layout Standard
