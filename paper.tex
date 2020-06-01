@@ -81,7 +81,7 @@ Cairo, Egypt\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{abstract}
-    In this paper VLSI routing is improved by improving global routing, this can be done by using A-Star with a heuristic cost function that has parameters which affect the time taken by the router on changing instead of Dijkstra's algorithm in finding path, which will reduce the time taken in this process and achieve the minimum wirelength, many comparisons are taken in this paper with different algorithms to find the optimum algorithm to be used to achieve both minimum wirelength and minimum time taken. From the comparisons of the paper, we can find that using any algorithm is a trade-off as when the taken time is decreased, the wirelength is increased and vice versa, so there is no algorithm which is better from the other algorithms in general but using A-Star algorithm with the heuristic function in finding the path is a good approach to be used in global routing as it decreases the routing time and achieves the minimum wirelength.
+    In this paper VLSI routing is improved by improving global routing, this can be done by using A-Star with a heuristic cost function that has parameters which affect the time taken by the router on changing instead of Dijkstra's algorithm in finding path, which will reduce the time taken in this process and achieve the minimum wire length, many comparisons are taken in this paper with different algorithms to find the optimum algorithm to be used to achieve both minimum wire length and minimum time taken. From the comparisons of the paper, we can find that using any algorithm is a trade-off as when the taken time is decreased, the wire length is increased and vice versa, so there is no algorithm which is better from the other algorithms in general but using A-Star algorithm with the heuristic function in finding the path is a good approach to be used in global routing as it decreases the routing time and achieves the minimum wire length.
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,7 +98,7 @@ VLSI Routing, Global Routing, Routing Algorithms, Fast Global Routing, Fast Rout
 
 \section{Introduction}
 
-Routing is a critical step in the physical design process. Until now the optimum solution for VLSI routing has not been achieved yet, so it is considered a very interesting challenging field. It is exactly done in two steps, global routing, and detailed routing, in global routing, A-technique for 3D global routing is to compress a \textit{3D} grid into a \textit{2D} grid and handle \textit{2D} global routing. The obtained solution is then projected back to \textit{3D} by assignment of layers. as introduced in most of modern designs as in \cite{b1}, \cite{b2}, \cite{b3}, \cite{b4}, \cite{b5}, \cite{b6}, \cite{b7}, and \cite{b8}. At first global routing is run which is responsible for making an approximate routing for the whole circuit in order to be used as a guide for detailed routing, then the detailed routing is run to make the exact routing for the system. That means if global or detailed routing is improved the whole routing process is improved, but there are many problems that have to be overcome to make a correct routing process. First of all, the scale has to be taken into consideration, as millions of wires exist in a small chip area which means that many kilometers of wires are placed in a very small area, so total wirelength has to be minimized as much as possible, also it is known that as the wirelength increases the resistance increases as well which means more delay in the chip. There is another problem as circuits are made in nano-scale which means that its geometric will be complex. Another problem is that the routing algorithm has to be applicable for more than one layer with different costs. The direction of wires also has to be taken into consideration as the direction of wires in every layer can be either vertical or horizontal and no diagonal paths, then to go from source 'S' to target 'T' the path taken should be in (vertical | horizontal) directions that specified by the layer (at each layer wires are placed in one direction only), then there is another problem as when a wire goes from layer to another to continue on the perpendicular direction it has to go through via which has a high resistance. DFM (design for manufacturer) rules also have to be achieved. All of these constraints must be taken into consideration with the global routing to achieve a hundred percent of the circuit connections, which means global routing will take a lot of time to achieve all these constraints, and here is the challenge to achieve all the routing specifications with the minimum time taken. 
+Routing is a critical step in the physical design process. Until now the optimum solution for VLSI routing has not been achieved yet, so it is considered a very interesting challenging field. It is exactly done in two steps, global routing, and detailed routing, in global routing, A-technique for 3D global routing is to compress a \textit{3D} grid into a \textit{2D} grid and handle \textit{2D} global routing. The obtained solution is then projected back to \textit{3D} by assignment of layers. as introduced in most of modern designs as in \cite{b1}, \cite{b2}, \cite{b3}, \cite{b4}, \cite{b5}, \cite{b6}, \cite{b7}, and \cite{b8}. At first global routing is run which is responsible for making an approximate routing for the whole circuit in order to be used as a guide for detailed routing, then the detailed routing is run to make the exact routing for the system. That means if global or detailed routing is improved the whole routing process is improved, but there are many problems that have to be overcome to make a correct routing process. First of all, the scale has to be taken into consideration, as millions of wires exist in a small chip area which means that many kilometers of wires are placed in a very small area, so total wire length has to be minimized as much as possible, also it is known that as the wire length increases the resistance increases as well which means more delay in the chip. There is another problem as circuits are made in nano-scale which means that its geometric will be complex. Another problem is that the routing algorithm has to be applicable for more than one layer with different costs. The direction of wires also has to be taken into consideration as the direction of wires in every layer can be either vertical or horizontal and no diagonal paths, then to go from source 'S' to target 'T' the path taken should be in (vertical | horizontal) directions that specified by the layer (at each layer wires are placed in one direction only), then there is another problem as when a wire goes from layer to another to continue on the perpendicular direction it has to go through via which has a high resistance. DFM (design for manufacturer) rules also have to be achieved. All of these constraints must be taken into consideration with the global routing to achieve a hundred percent of the circuit connections, which means global routing will take a lot of time to achieve all these constraints, and here is the challenge to achieve all the routing specifications with the minimum time taken. 
 
 \begin{figure} 
 \centering  
@@ -212,7 +212,7 @@ Routing is a critical step in the physical design process. Until now the optimum
 \label{fig:GlobalRoutingProcess}
 \end{figure}
 
-Figure~\ref{fig:GlobalRoutingProcess} shows a very simple approach of how the global router works. At (a) the source and target of both (A,B) need to be connected ignoring obstacles, nevertheless we can observe that the global router have to iterate to get the best routing paths, at (b) (B,B) connected but there is no way to connect (A,A) as when (B,B) connected together they blocked the way for (A,A) to be connected, after some iterations we can find the figure at (c) in which (A,A) and (B,B) connected correctly, but there is a problem, the (A,A) connection is not the optimal path as there are paths which achieve less wirelength, so the global router have to iterate until reaching the optimal path. These iterations are done for only two connections in one layer without obstacles, then how about millions of wires in VLSI? this shows how much the global routing algorithm has to be very fast in order to connect this huge number of wires as fast as possible.
+Figure~\ref{fig:GlobalRoutingProcess} shows a very simple approach of how the global router works. At (a) the source and target of both (A,B) need to be connected ignoring obstacles, nevertheless we can observe that the global router have to iterate to get the best routing paths, at (b) (B,B) connected but there is no way to connect (A,A) as when (B,B) connected together they blocked the way for (A,A) to be connected, after some iterations we can find the figure at (c) in which (A,A) and (B,B) connected correctly, but there is a problem, the (A,A) connection is not the optimal path as there are paths which achieve less wire length, so the global router have to iterate until reaching the optimal path. These iterations are done for only two connections in one layer without obstacles, then how about millions of wires in VLSI? this shows how much the global routing algorithm has to be very fast in order to connect this huge number of wires as fast as possible.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -223,58 +223,126 @@ Figure~\ref{fig:GlobalRoutingProcess} shows a very simple approach of how the gl
 
 Several papers proposed various types of approaches to improve the routing process, each of them tried to improve the overall routing by improving one or more parameters, some papers tried to decrease the number of vias, other papers tried to decrease the time taken and so on.
 \par
-In \cite{b1} a sequential global routing is used and two bounded length maze algorithms as finding path algorithms are provided in order to make the router faster and to avoid congestions thus avoiding overflow, the first one is optimal-BLMR and the second one is heuristic-BLMR. optimal-BLMR is used to get the minimum cost paths to be used as routing paths, this can be done in three steps. First BLC (bounded length constraint) is defined as a greater number than Manhattan distance then to go from source to target the neighbor points are tested if it can be a part of a path or not, each point that violates the BLC constraint is discarded. Second, if the route started from point \textit{v}, ended at point \textit{u} and there were many paths between these two points, the normal maze algorithm will take the path with the minimum cost which may cause the route to pass through congestions, but in optimal-BLMR, it keeps track of all paths between these two points in order to choose the path that will not cause overflow, it iterates on the minimum cost path every time and if it found a suitable path it reserves that path, otherwise, it discards that path. Third step the optimal-BLMR iterates on the reserved paths and choose the one to be used for routing. Heuristic-BLMR is used to speed the router up by reserving only one path between the two points, but it has to keep the advantage of optimal-BLMR (avoiding congestions), this can be achieved by reserving the selected path only if the wirelength is enough to detour around congested regions. The advantages of this paper are using sequential global routing which is based on multithreaded global routing which speedup the router between $2.71$ and $3.12$ in overflow free cases, avoiding collision by using optimal-BLMR, and making a fast and nearly avoiding collision algorithm (heuristic-BLMR). But there are some disadvantages too, as optimal-BLMR is very slow to be used, although heuristic-BLMR is faster than optimal-BLMR its results are not accurate as the wirelength is not the best compared with other papers, and it is done on \textit{2D} grid then it is projected to the \textit{3D} one however, this approach gives a good result but it is not accurate like routers that apply routing in the \textit{3D} grid directly as in \cite{b9}.
+In \cite{b1} a sequential global routing is used and two bounded length maze algorithms as finding path algorithms are provided in order to make the router faster and to avoid congestions thus avoiding overflow, the first one is optimal-BLMR and the second one is heuristic-BLMR. optimal-BLMR is used to get the minimum cost paths to be used as routing paths, this can be done in three steps. First BLC (bounded length constraint) is defined as a greater number than Manhattan distance then to go from source to target the neighbor points are tested if it can be a part of a path or not, each point that violates the BLC constraint is discarded. Second, if the route started from point \textit{v}, ended at point \textit{u} and there were many paths between these two points, the normal maze algorithm will take the path with the minimum cost which may cause the route to pass through congestions, but in optimal-BLMR, it keeps track of all paths between these two points in order to choose the path that will not cause overflow, it iterates on the minimum cost path every time and if it found a suitable path it reserves that path, otherwise, it discards that path. Third step the optimal-BLMR iterates on the reserved paths and choose the one to be used for routing. Heuristic-BLMR is used to speed the router up by reserving only one path between the two points, but it has to keep the advantage of optimal-BLMR (avoiding congestions), this can be achieved by reserving the selected path only if the wire length is enough to detour around congested regions. The advantages of this paper are using sequential global routing which is based on multithreaded global routing which speedup the router between $2.71$ and $3.12$ in overflow free cases, avoiding collision by using optimal-BLMR, and making a fast and nearly avoiding collision algorithm (heuristic-BLMR). But there are some disadvantages too, as optimal-BLMR is very slow to be used, although heuristic-BLMR is faster than optimal-BLMR its results are not accurate as the wire length is not the best compared with other papers, and it is done on \textit{2D} grid then it is projected to the \textit{3D} one however, this approach gives a good result but it is not accurate like routers that apply routing in the \textit{3D} grid directly as in \cite{b9}.
 \par
-In \cite{b4}, both of via count and runtime are reduced, this done by integrating \cite{b10}, \cite{b11}, and \cite{b12} with via aware Steiner tree generation, 3-bend routing, and layer assignment with careful edge and net ordering to create \cite{b4}. Via aware Steiner tree is used to at the beginning of the global routing, it generates a suitable topology, by changing tree topology the via count greatly changed, which means that using a suitable topology for Steiner tree will greatly reduce the via count. The 3-bend routing is used instead of L, U, Z, maze, and monotonic routing, as L, U, Z routing can not avoid congestions but they generate a little number of vias, maze and monotonic can avoid congestions but they generate a lot of vias and their runtime is very high, so the 3-bend routing was used as it is fast, its completely \textit{O(nm)}, and it generates vias less than maze and monotonic routing as it consists of two L routing. Layer assignment with careful ordering algorithm is used as a solution of \textit{3D}, it is like all the modern techniques projects the \textit{3D} grid into \textit{2D} one to be easier and faster in routing, this algorithm guarantees the wirelength and overflow unchanged on assigning to layers, dynamic programming is used in layer assignment to make it faster. From the previous explanation the advantages of this paper are decreasing number of vias, which means less power consumption and circuit delay, and decreasing runtime of global routing thus decreasing runtime of whole the routing process. But it has disadvantages too, one of them is the wirelength is not optimal, as using 3-bend routing increases the wirelength to avoid congestions, another one is caused by layer assignment, as if the \textit{2D} was not congestion-free the results will not be accurate.
+In \cite{b4}, both of via count and runtime are reduced, this done by integrating \cite{b10}, \cite{b11}, and \cite{b12} with via aware Steiner tree generation, 3-bend routing, and layer assignment with careful edge and net ordering to create \cite{b4}. Via aware Steiner tree is used to at the beginning of the global routing, it generates a suitable topology, by changing tree topology the via count greatly changed, which means that using a suitable topology for Steiner tree will greatly reduce the via count. The 3-bend routing is used instead of L, U, Z, maze, and monotonic routing, as L, U, Z routing can not avoid congestions but they generate a little number of vias, maze and monotonic can avoid congestions but they generate a lot of vias and their runtime is very high, so the 3-bend routing was used as it is fast, its completely \textit{O(nm)}, and it generates vias less than maze and monotonic routing as it consists of two L routing. Layer assignment with careful ordering algorithm is used as a solution of \textit{3D}, it is like all the modern techniques project the \textit{3D} grid into \textit{2D} one to be easier and faster in routing, this algorithm guarantees the wire length and overflow unchanged on assigning to layers, dynamic programming is used in layer assignment to make it faster. From the previous explanation, the advantages of this paper are decreasing the number of vias, which means less power consumption and circuit delay, and decreasing runtime of global routing thus decreasing runtime of whole the routing process. But it has disadvantages too, one of them is the wire length is not optimal, as using 3-bend routing increases the wire length to avoid congestions, another one is caused by layer assignment as if the \textit{2D} was not congestion-free the results will not be accurate.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROPOSED APPROACH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \section{Proposed Approach}
-
-For a multilevel feedback queue scheduling algorithm, three parameters are considered. The first is the chosen scheduling algorithm for each queue, especially the last queue as its scheduling algorithm is expected to treat starvation. The second is the criteria according to which a process is promoted, this technique is also known as Aging. The third is the criteria according to which a process is demoted. In our proposed algorithm, there are 5 queues sorted in ascending order in line with their priority number, 1 being the highest priority and 5 being the lowest. Each queue uses a modified version of the round-robin scheduling algorithm stated in {b3}. In {b3}, processes are sorted in ascending order according to their burst time and are assigned a time quantum that equals the median burst time of those processes. This algorithm provides better turnaround time and waiting time than the standard static quantum RR algorithm whose quantum, if set too short, leads to many context switches and, if set too long, morphs the algorithm into an FCFS algorithm. The proposed alteration on the stated algorithm in {b3} is that each queue quantum time equals the median burst time multiplied by a factor matching the queue number. Hence, the gradual increase of quantum time as priority decreases. For clarification, a queue with priority equal $2$ has the following processes denoted by their burst time: $100$, $300$, $550$, $600$, $620$, $700$, $720$, $900$ and $1200$, the median value is $620$, since we are in a queue whose priority equals $2$, therefore the quantum slice value according to the proposed approach equals $1240$ as in $620 * 2$. If processes of a certain queue didn't terminate after assigning the quantum time value, they are shifted to the next lower priority queue. After introducing new processes into a queue, the quantum time slice is recalculated. Processes age whenever they are in a queue whose priority is one less than that currently getting scheduled and satisfies the following inequality:
-\begin{equation}
-\frac{waiting \; time \; of \; P}{burst \; time \; of \; P} >= 1\label{eq1}
-\end{equation}
-
-Those procedures are repeated for all the generated queues until all processes reach the lowest priority queue where they are rescheduled until their completion. 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% FLOWCHART %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Pseudocode Flowchart of the Proposed Approach}
-\begin{tikzpicture}[node distance=2.2cm]
-
-    \node (start) [startstop] {Start};
-    \node (in1) [io, below of=start, text width = 2cm] {Read Processes Data};
-    \node (dec1) [decision, below of=in1, text width = 2cm, yshift=-1cm] {All processes are finished};
-    \node (pro1) [process, below of=dec1, text width= 3cm, yshift = -1cm] {Iterate on queues $Q$};
-    \node (pro2) [process, below of=pro1, text width = 3cm] {Assign eligable processes to the current queue};
-    \node (out1) [io, left of=dec1, text width = 2cm, xshift= -2cm] {Print avg. waiting time, avg. turnaround time, throughput};
-    \node (end) [startstop, below of=out1, yshift=-1cm] {End};
-    \node (dec2) [decision, below of=pro2, text width = 2cm, yshift=-2cm] {A process $P$ in the subsequent queue is boostable};
-
-    \node (pro3) [process, left of=dec2, text width= 3cm, xshift= -2.5cm] {Promote $P$ to current queue};
-    \node (pro4) [process, below of=dec2, text width= 3cm, yshift=-2.2cm] {Calculate the quantum time value $\phi$};
-    \node (pro5) [process, below of=pro4, text width= 3cm] {Schedule processes in current queue};
+For global routing, three parameters are considered. The first is the total wire length, the second is the total overflow. The third is the running time. In our proposed solution, we are focused on the time parameter without affecting much the total wire length and total overflow. So according to minimize the time we have decided to apply A* algorithm as the pathfinder algorithm with a proposed heuristic function, A* is basically a guided variation of Dijkstra. This algorithm can be turned into a better or worse pathfinding algorithm by experimenting with the heuristics it uses and how it evaluates each node a* expands on a node only if it seems promising. Its only focus is to reach the goal node as quickly as possible from the current node, not to try and reach every other node. Illustrative example:
+\begin{figure} [hbt!]
+    \centering  
+    \subfigure[Maze] {
+    \begin{tikzpicture}
+        [
+            box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
+        ]
     
-    \draw [arrow] (start) -- (in1);
-    \draw [arrow] (in1) -- (dec1);
-    % \draw [arrow] (pro1) -- (dec1);
-    \draw [arrow] (dec1) -- node[anchor=west, above] {Yes} (out1);
-    \draw [arrow] (out1) -- (end);
-    \draw [arrow] (dec1) -- node[anchor=south, left] {No} (pro1);
-    \draw [arrow] (pro1) -- (pro2);
-    \draw [arrow] (pro2) -- (dec2);
-    \draw [arrow] (dec2) -- node[anchor=west,above] {Yes} (pro3);
-    \draw [arrow] (pro3.north) -- ++ (0,3.7) -- ++ (3.1,0);
-    \draw [arrow] (dec2) -- node[anchor=south, left] {No} (pro4);
-    \draw [arrow] (pro4) -- (pro5);
-    \draw [arrow] (pro5.east) -- ++ (1.2,0) -- ++(0,16.2) -- ++(-1.3,0);
+    \foreach \x in {0,0.5,...,3.5}{
+        \foreach \y in {0,0.5,...,2}
+            \node[box] at (\x,\y){};
+    }
+    \node [box,fill=green] at (0.5,1){S};
+    \node[box,fill=green  ] at (3,1){D};  
+    \node[box,fill=black  ] at (2,1){ };  
     \end{tikzpicture}
+}
+
+\subfigure[Applying Dijkstra] {
+    \begin{tikzpicture}
+        [
+            box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
+        ]
+    
+    \foreach \x in {0,0.5,...,3.5}{
+        \foreach \y in {0,0.5,...,2}
+            \node[box] at (\x,\y){};
+    }
+
+    \node [box,fill=blue] at (0,0){};
+    \node [box,fill=blue] at (0.5,0){};
+    \node [box,fill=blue] at (1,0){};
+    \node [box,fill=blue] at (1.5,0){};
+    \node [box,fill=blue] at (2,0){};
+    \node [box,fill=blue] at (2.5,0){};
+    \node [box,fill=blue] at (3,0){};
+    \node [box,fill=blue] at (0,0.5){};
+    \node [box,fill=blue] at (0.5,0.5){};
+    \node [box,fill=blue] at (1,0.5){};
+    \node [box,fill=blue] at (1.5,0.5){};
+    \node [box,fill=blue] at (2,0.5){};
+    \node [box,fill=blue] at (2.5,0.5){};
+    \node [box,fill=blue] at (3,0.5){};
+    \node [box,fill=blue] at (3.5,.5){};
+    \node [box,fill=blue] at (2.5,1){};
+    \node [box,fill=blue] at (0,1){};
+    \node [box,fill=blue] at (2.5,0.5){};
+    \node [box,fill=blue] at (0,2){};
+    \node [box,fill=blue] at (0.5,2){};
+    \node [box,fill=blue] at (1,2){};
+    \node [box,fill=blue] at (1.5,2){};
+    \node [box,fill=blue] at (2,2){};
+    \node [box,fill=blue] at (2.5,2){};
+    \node [box,fill=blue] at (3,2){};
+    \node [box,fill=blue] at (3.5,2){};
+    \node [box,fill=blue] at (3.5,1.5){};
+    \node [box,fill=blue] at (0,1.5){};
+    \node [box,fill=blue] at (0.5,1.5){};
+    \node [box,fill=blue] at (1,1.5){};
+    \node [box,fill=yellow] at (0.5,1){S};
+    \node [box,fill=yellow] at (1,1){};
+    \node [box,fill=yellow] at (1.5,1){};
+    \node [box,fill=yellow] at (1.5,1.5){};
+    \node [box,fill=yellow] at (2,1.5){};
+    \node [box,fill=yellow] at (2.5,1.5){};
+    \node [box,fill=yellow] at (3,1.5){};
+    \node[box,fill=yellow  ] at (3,1){D};  
+    \node[box,fill=black  ] at (2,1){ };  
+    \end{tikzpicture}
+}
+\subfigure[Applying A*] {
+    \begin{tikzpicture}
+        [
+            box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
+        ]
+    
+    \foreach \x in {0,0.5,...,3.5}{
+        \foreach \y in {0,0.5,...,2}
+            \node[box] at (\x,\y){};
+    }
+    \node [box,fill=yellow] at (0.5,1){S};
+    \node[box,fill=yellow  ] at (3,1){D};
+    \node [box,fill=yellow] at (0.5,1.5){};  
+    \node [box,fill=yellow] at (1,1.5){};  
+    \node [box,fill=yellow] at (1.5,1.5){};
+    \node [box,fill=yellow] at (2,1.5){};
+    \node [box,fill=yellow] at (2.5,1.5){};
+    \node [box,fill=yellow] at (3,1.5){};
+    \node [box,fill=blue] at (0,1){};
+    \node [box,fill=blue] at (1,1){};
+    \node [box,fill=blue] at (1.5,1){};
+    \node[box,fill=black  ] at (2,1){ };  
+    \end{tikzpicture}
+}
+\caption{Comparison between Dijkstra \& A* }
+\label{fig:GlobalRoutingProcess}
+\end{figure}
+
+In the illustrative example the visited nodes are marked in blue color and the path is in yellow color.
+Both have path of six cells which in our case they have optimal wire length but totally different running time as Dijkstra visits much more nodes than A*
+, in the case of many target nodes, Dijkstra might be better in total wire length but much slower than A*, with an appropriate heuristic function we can minimize the time and try to reach optimal wire length. The heuristic function is a way of informing the search about the path to a target that provides an intelligent way of guessing which neighbor of the node is going to lead to the target faster. Hence, our heuristic function composed of Manhattan distance, layer index, and some constants.
+
+\begin{multline*}
+    h = \ln ((\mid p1 \cdot x-p2 \cdot x\mid+\mid p1 \cdot y-p2 \cdot y\mid)*const1) \\ 
+     +(\mid p1 \cdot layerid-p2 \cdot layerid\mid)*const2 \\
+\end{multline*}
+The global router is implemented using C++ with the boost library, and a parser for LEF/DEF formats. We conducted our experiment with the same configuration and tried to test the global router behavior using A* algorithm instead of Dijkstra's.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ALGORITHM %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -284,65 +352,56 @@ Those procedures are repeated for all the generated queues until all processes r
 % \floatstyle{norules}
 \restylefloat{algorithm}
 \begin{algorithm}[H]
-    \caption{Developed Multilevel Feedback Queue Scheduling Algorithm}
-    \hspace*{\algorithmicindent} \textbf{Input:} Number of processes $n$, processes priority $\alpha$\\
-    \hspace*{\algorithmicindent} burst time values $\beta$, arrival time values $\sigma$, \\
-    \hspace*{\algorithmicindent} context switching cost $\epsilon$\\
-    \hspace*{\algorithmicindent} \textbf{Output:} Average turnaround time, average waiting time,\\
-    \hspace*{\algorithmicindent} throughput
+    \caption{A* Algorithm}
+    \hspace*{\algorithmicindent} \textbf{Input:} Grid values $g$, Source $s$, Destination $d$\\
+    \hspace*{\algorithmicindent} \textbf{Output:} Path\\
     \begin{algorithmic}[1]
-    \Procedure {DMLFQ}{}
+    \Procedure {A*}{}
     % Return  Average waiting time, throughput
     \Statex Declaration and Initialisation:
-    \State Queue $Q_{i}$ where $i \in \{1, 2, 3, 4, 5\}$
-    \State Turnaround time values $\tau$
-    \State Finish time values $\lambda$
-    \State Waiting time values $\theta$
-    \State Remaining time values $\mu = \beta$
-    \State Quantum time value $\phi$
-    \State Number of context switches $\delta$
-        \State$time = 0$
-        \While{$\exists P \in Q$}
-            \For{$i = 1$ to $5$}
-                \For{$j = 1$ to $n$}
-                    \If{$\sigma_{j} <= time$ and $\alpha_{j}$ equals $i$}
-                        \State \textit{\textbf{Assign}} $P_{j}$ to $Q_{i}$
-                    \EndIf
-                    \State $waitingTime = time - \sigma_{j}$
-                    \If{$i < 5$ and $waitingTime/\mu_{j} >= 1$ and $\alpha_{j}$ equals $i + 1$ and  $\sigma_{j} <= time$}
-                        \State \textit{\textbf{Assign}} $P_{j}$ to $Q_{i}$
-                    \EndIf
-                \EndFor
-                \State Sort $Q_{i}$ in ascending order according to remaining time values
-                \State $\phi = median\; value\; of\; Q_{i} * i$
-                \algrenewcommand\algorithmicfor{\textbf{foreach}}
-                \For{$P_{j} \in Q_{i}$}
-                    \If{$\mu_{j} <= \phi$}
-                        \State $time = time + \mu_{j}$
-                        \State $\lambda_{j} = time$
-                        \State \textit{\textbf{Remove}} $P_{j}$ from $Q_{i}$
-                    \Else
-                        \State $time = time + \phi$
-                        \State $\mu_{j} = \mu_{j} - \phi$
-                        \If{$i < 5$}
-                            \State $\alpha_{j} = \alpha_{j} + 1$
-                        \EndIf
-                    \EndIf
-                    \If{Previous process $\neq P_{j}$}
-                        \State $time = time + \epsilon$
-                        \State $\delta = \delta + 1$
-                    \EndIf
-                \EndFor
-                \algrenewcommand\algorithmicfor{\textbf{for}}
+    \State Cells $\theta$ % The Cells in the grid.
+    \State Visited Nodes $\phi$ % Nodes already visited.
+    \State Openlist Nodes $\delta$ % Nodes still to be visited. pq
+    \State The cost from starting point to a given node $g$
+    \State The heuristic function $h$
+    \State (The cost of $g$ + The cost of $h$) is $f$
+    \If{$s$ or $d$ is invalid}
+        \Return
+    \EndIf
+    \If{$s$ or $d$ is blocked}
+        \Return
+    \EndIf
+    \If{$s$ = $d$}
+        \Return
+    \EndIf
+    \State Initialize $\delta$ 
+    \State Initialize $\phi$
+        \While{$\delta$ is not empty}
+            \State $currNode$  = node with least $f$ in $\delta$
+            \State $\delta$.Remove($currNode$)
+            \State Generate 4 neighbours of $currNode$
+            \For{$neighbour \in neighbours$}
+            \If{$neighbour$ = $d$}
+                \State Get path
+                \Return
+            \ElsIf{$neighbour \notin \phi$ and $neighbour$ is not blocked}
+                \State $gnew$ = $currNode$.$g$ + distance between neighbour and currNode
+                \State $hnew$ = distance from $d$ to $neighbour$
+                \State $fnew$ = $gnew$ + $hnew$
+                \If{$fnew < neighbour$.$f$}
+                \State $neighbour$.$g$ = $currNode$.$g$ + distance between neighbour and currNode
+                \State $neighbour$.$h$ = distance from $d$ to $neighbour$
+                \State $neighbour$.$f$ = $neighbour$.$g$ + $neighbour$.$h$
+                \State $\delta$.Add($neighbour$)
+                \EndIf
+            \EndIf
             \EndFor
+        \State $\phi$.Add($currNode$)
         \EndWhile
-        \For{$i = 1$ to $n$}
-            $\tau_{j} = \lambda_{j} - \sigma_{j}$, $\theta_{j} = \tau_{j} - \beta_{j}$
-        \EndFor
-        \State \textbf{return} average of $\theta$, average of $\tau$, $n/time$
         \EndProcedure
     \end{algorithmic}
 \end{algorithm}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% EXPERIMENTAL ANALYSIS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -970,6 +1029,8 @@ The goal of this paper is to tackle different shortcomings associated with the s
     \bibitem{b11} Pan, Min, and Chris Chu. "FastRoute: A step to integrate global routing into placement." \textit{Proceedings of the 2006 IEEE/ACM international conference on Computer-aided design.} 2006.
 
     \bibitem{b12} Pan, Min, and Chris Chu. "FastRoute 2.0: A high-quality and efficient global router." \textit{2007 Asia and south pacific design automation conference.} IEEE, 2007.
+
+    \bibitem{b13} Liu, Jinwei, et al. "CUGR: Detailed-Routability-Driven 3D Global Routing with Probabilistic Resource Model."
 
 \end{thebibliography}
 
