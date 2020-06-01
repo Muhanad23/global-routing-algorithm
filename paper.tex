@@ -11,6 +11,10 @@
 \usepackage{xcolor}
 \usepackage{pgfplots}
 \usepackage{subfigure}
+\usepackage{multirow}
+\usepackage{float}
+\usepackage{adjustbox}
+
 
 \pgfplotsset{compat=1.9}
 
@@ -58,7 +62,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TITLE %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\title{Improved Global Routing By Using A Star Algorithm\\}
+\title{Improved Global Routing By Using A-Star Algorithm\\}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% AUTHORS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -228,10 +232,40 @@ In \cite{b1}, a sequential global routing is used and two bounded length maze al
 \medskip
 \par
 In \cite{b4}, both of via count and runtime are reduced, this done by integrating \cite{b2}, \cite{b11}, and \cite{b12} with via aware Steiner tree generation, 3-bend routing, and layer assignment with careful edge and net ordering to create \cite{b4}. Via aware Steiner tree is used to at the beginning of the global routing, it generates a suitable topology, by changing tree topology the via count greatly changed, which means that using a suitable topology for Steiner tree will greatly reduce the via count. The 3-bend routing is used instead of L, U, Z, maze, and monotonic routing, as L, U, Z routing can not avoid congestions but they generate a little number of vias, maze and monotonic can avoid congestions but they generate a lot of vias and their runtime is very high, so the 3-bend routing was used as it is fast, its completely \textit{O(nm)}, and it generates vias less than maze and monotonic routing as it consists of two L routing. Layer assignment with careful ordering algorithm is used as a solution of \textit{3D}, it is like all the modern techniques project the \textit{3D} grid into \textit{2D} one to be easier and faster in routing, this algorithm guarantees the wire length and overflow unchanged on assigning to layers, dynamic programming is used in layer assignment to make it faster. From the previous explanation, the advantages of this paper are decreasing the number of vias, which means less power consumption and circuit delay, and decreasing runtime of global routing thus decreasing runtime of whole the routing process. But it has disadvantages too, one of them is the wire length is not optimal, as using 3-bend routing increases the wire length to avoid congestions, another one is caused by layer assignment as if the \textit{2D} was not congestion-free the results will not be accurate.
+
 \medskip
 \par
-In \cite{b15}, routing efficiency is increased compared to \textit{2D} routers, and runtime is decreased compared to \textit{3D} routers. As the \textit{3D} routers achieve efficient results, it will be used but with some modifications to achieve an acceptable runtime. At first, initialization is done by running a Steiner tree, pattern routing step, and dynamic programming is used in layer assignment as in \textit{2D} routers like \cite{b4}. The second step named coarsening stage, in which, the \textit{3D} grid is split into a hierarchy of levels, a \textit{3D} maze routing is done on each level, starting with the lower level to the higher one, each routed level is projected into the higher one and run the maze algorithm another time to the higher level, which guarantees fewer congestions and less via count as it is a \textit{3D} routing algorithm, 
-and the divide and conquer technique they use reduces the time taken. So the advantages of this paper are creating more efficient routing than \textit{2D} and \textit{3D} projection that used in most modern papers and reducing the runtime compared to the ordinary \textit{3D} maze routing. But there are some disadvantages too, one of them that the results are not efficient enough compared to the \textit{3D} routing algorithms, another one is that the runtime still high compared to \textit{2D} routers.  
+In \cite{b13} they proposed an approach to not only perform pathfinding, but also the global routers are also required to generate a set of connected rectangle guides,  each of which contains an integral number of G-cells so that the detailed router can find a path within the guides to connect all pins of each net and reduce a given cost function to the minimum. \\
+The proposed 3D pattern routing generates 3D topologies directly, while the traditional 3D pattern routing only generates 2D topologies and uses an extra layer for the assignment level. They, therefore, proposed a combination of 2D pattern routing with layer assignment and used it to choose a path for each two-pin net, and, with the help of dynamic programming, they ensure that an optimal solution can be found if it exists.
+The overall flow of their proposed algorithm can be divided into 3 parts, summarized as follows:
+\begin{enumerate}
+	\item Initial routing:
+    \begin{enumerate}
+    	\item Pattern Routing Planning: \\
+        In order to carry out 3D pattern routing, each multi-pin net first will be broken into set of two pin nets in this step.        
+        \item 3D Pattern Routing with Layer Assignment: \\
+        After breaking down the nets into two-pin nets and decide their order,
+        pattern routing and layer assignment are performed simultaneously using a dynamic programming algorithm.
+        Rather than performing layer assignment after a net is a pattern routed,
+        our dynamic programming algorithm merges the two steps to minimize the overall cost
+        and Prevent loss of precision caused by compressing the 3D grid graph to 2D.
+    \end{enumerate}
+    \item Multi-level 3D Maze Routing: \\
+    After initial routing, the nets with violations will be destroyed and multiple iterations of rip-up and reroute (RRR) may be performed by maze routing. The multi-level 3D Maze Routing is repeated until there's no overflow. Because the maze routing on the entire 3d  graph would take too much time because of the wide search space, an algorithm that limits the search area to the bounding box of the net will make rerouting much faster, but it may reduce the routing quality.
+    Considering the above, the proposed algorithm Uses multi-level 3d maze routing to allow graph searching process while reaching reasonable trade off between time and routing quality.
+    The proposed routing technique has two levels, each serves a different purpose:
+    \begin{enumerate}
+    	\item  Maze Routing Planning (Bounding Box Generation): \\
+        In order to carry out 3D pattern routing, each multi-pin net will first be broken down into a set of two-pin nets in this step.        
+        \item 3D Maze Routing within Bounding Box (fine-grained maze routing within guides): \\
+        Performs another level of maze routing, it seeks to find a path with the minimum
+        actual cost within the search space.
+    \end{enumerate}
+	\item Route guide generation \& patching: \\
+    The output of the global router is connected rectangular route guides, the algorithm proposes a new technique called patching to add some stand-alone route guides or patches onto the routed path to further improve the detailed routing.
+\end{enumerate}
+
+They introduce a global 3D router that could enhance the routing well in efficiency and quality. The 3d routing technique combines 2d routing and assignment of layers and helps most nets to be routed quickly and optimally. A patching method that actually contributes to useful route guidance to improve detailed routing in some way. An innovative probability-based cost scheme which takes into account the risk of overflow, the total wire length, and it is also capable of reducing the number of via and the total wire length while avoiding overflow and preserving enough edge capacity which is the number of paths that can pass through the edge. A multi-level maze routing method which is used to shrink the search space and then performs a bounded maze routing to find a minimum cost path.in that method we decided to work on the time parameter by instead of using the Dijkstra algorithm we will use the A-Star algorithm with a proposed heuristic function that will improve the time.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PROPOSED APPROACH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -341,9 +375,8 @@ For global routing, three parameters are considered. The first is the total wire
 In the illustrative example the visited nodes are marked in cyan color, the path is in orange color, and the blocked cells are black.
 Both have path of six cells which in our case they have optimal wire length but totally different running time as Dijkstra visits much more nodes than A-Star
 , in the case of many target nodes, Dijkstra might be better in total wire length but much slower than A-Star, with an appropriate heuristic function we can minimize the time and try to reach optimal wire length. The heuristic function is a way of informing the search about the path to a target that provides an intelligent way of guessing which neighbor of the node is going to lead to the target faster. Hence, our heuristic function composed of Manhattan distance, layer index, and some constants.
-
 \begin{multline*}
-    h = \ln ((\mid p1 \cdot x-p2 \cdot x\mid+\mid p1 \cdot y-p2 \cdot y\mid)*const1) \\ 
+    h = \ln (\mid p1 \cdot x-p2 \cdot x\mid+\mid p1 \cdot y-p2 \cdot y\mid)*const1 \\ 
      +(\mid p1 \cdot layerid-p2 \cdot layerid\mid)*const2 \\
 \end{multline*}
 The global router is implemented using C++ with the boost library, and a parser for LEF/DEF formats. We conducted our experiment with the same configuration and tried to test the global router behavior using A-Star algorithm instead of Dijkstra's.
@@ -374,10 +407,10 @@ The global router is implemented using C++ with the boost library, and a parser 
         \Return
     \EndIf
     \If{$s$ or $d$ is blocked}
-        \Return
+        \State \Return
     \EndIf
     \If{$s$ = $d$}
-        \Return
+        \State \Return
     \EndIf
     \State Initialize $\delta$ 
     \State Initialize $\phi$
@@ -388,7 +421,7 @@ The global router is implemented using C++ with the boost library, and a parser 
             \For{$neighbour \in neighbours$}
             \If{$neighbour$ = $d$}
                 \State Get path
-                \Return
+                \State \Return
             \ElsIf{$neighbour \notin \phi$ and $neighbour$ is not blocked}
                 \State $gnew$ = $currNode$.$g$ + distance between neighbour and currNode
                 \State $hnew$ = distance from $d$ to $neighbour$
@@ -407,592 +440,244 @@ The global router is implemented using C++ with the boost library, and a parser 
     \end{algorithmic}
 \end{algorithm}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% EXPERIMENTAL ANALYSIS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
 \section{Experimental Analysis}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ASSUMPTIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Assumptions}
-
-The proposed scheduling algorithm is software simulated using a Python script which simulates scheduling independent CPU-bound processes on a single processor environment which guarantees that no more than a single process is getting scheduled at any arbitrary moment. Each process is assumed to have its own predetermined burst time, arrival time and the queue to which each one belongs. The proposed approach is non-preemptive. For the sake of giving an example, if a process was lately introduced to a queue denoted by $Q_{i}$ prior to the current queue getting scheduled, it won't get scheduled until the current queue, its subsequent queues and the queues prior to $Q_{i}$ get scheduled.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% I/O %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Experimental Scheme}
-
-On one hand, the input arguments to the proposed algorithm implementation are the number of processes to be scheduled, their burst time, their arrival time and the queue where each one belongs. On the other hand, output parameters are the average waiting time, average turnaround time and throughput. The following equations are used to calculate the previously mentioned output parameters:
-
-\begin{equation}
-    Average\; Waiting\; Time =  \frac{Total \; Waiting \; Time}{Number \; of \; Processes} \label{eq2}
-\end{equation}
-
-\begin{equation}
-    Average\; Turnaround\; Time =  \frac{Total \; Turnaround \; Time}{Number \; of \; Processes} \label{eq3}
-\end{equation}
-
-\begin{equation}
-    Throughput =  \frac{Number \; of \; Executed \; Processes}{Total \; Execution \; Time} \label{eq4}
-\end{equation}
-
-% \vspace{4mm}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PERFORMANCE METRICS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Performance Metrics}
-
-As a means to have a concrete, viable evaluation of either the proposed algorithm or any other scheduling algorithm, the output parameters are taken into consideration for analysis. Since the average waiting time indicates the average time that a  process had to Starve for, therefore the lower the average waiting time is the better. The same principle applies to the average turnaround time and the number of context switches, as the former implies the average time spent by the process since its arrival time to its completion and the latter costs time as the CPU is assigned back and forth between different processes. Contrarily to the prior metrics, the larger the throughput is the better as it indicates the number of processes that are completely executed per unit time.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% SIMULATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Simulation}
-
-For the sake of showcasing the proposed algorithm, a number of processes, their predetermined burst time values and their arrival time values are taken as input to the Python simulation script. Suppose that the input to the script is according to the following table:
-
-\begin{table}[H]
-    \caption{}
-    \centering
-     \begin{tabular}{||c c c c||} 
-     \hline
-     \textit{\textbf{Process}} & \textit{\textbf{Arrival Time}} & \textit{\textbf{Burst Time}} & \textit{\textbf{Queue}} \T \B \\ 
-     \hline
-     \hline
-     1 & 0 & 60 & 1 \T \B \\ 
-     \hline
-     2 & 0 & 50 & 1 \T \B \\
-     \hline
-     3 & 0 & 40 & 2 \T \B \\
-     \hline
-     4 & 0 & 30 & 2 \T \B \\
-     \hline
-     5 & 0 & 10 & 3 \T \B \\ 
-     \hline
-     6 & 0 & 210 & 3 \T \B \\ 
-     \hline
-     7 & 0 & 200 & 3 \T \B \\ 
-     \hline
-     \end{tabular}
-     \label{table1}
-\end{table}
-
-According to the proposed algorithm, the time quanta calculated are as follows:
-
-\begin{table}[H]
-    \caption{}
-    \centering
-     \begin{tabular}{||c c||} 
-     \hline
-     \textit{\textbf{Queue}} & \textit{\textbf{Quantum Value}} \T \B \\ 
-     \hline
-     \hline
-     1 & 55 \T \B \\ 
-     \hline
-     2 & 40 \T \B \\
-     \hline
-     3 & 615 \T \B \\
-     \hline
-     4 & 0 \T \B \\
-     \hline
-     5 & 0 \T \B \\ 
-     \hline
-     \end{tabular}
-\end{table}
-
-All processes are sorted in ascending order according to their remaining time and are scheduled by assigning the time quantum calculated for their respective queue. The time spent scheduling a particular queue is the waiting time for its subsequent queues.
-
-The scheduling process goes as follows:
-
-\begin{figure}[H]
-        \begin{center}
-        \begin{tabular}{|c|c|}
-         \hline
-            $P_{2}$ & $P_{1}$\T\B\\ 
-         \hline
-        \end{tabular}
-        \end{center}
-        \begin{center}
-            \begin{tabular}{c c c}
-                   0 & 50 & 105\\ 
-            \end{tabular}
-        \end{center}
-    \caption{$Q_{1}$ Gantt Chart}
-\end{figure}
-
-Considering that each process in $Q_{1}$ is assigned a quantum value of $50$, as we reach the last process in $Q_{1}$, the total time elapsed equals $105$, which happens to be the time that all the other processes in the subsequent queues had to wait for, hence the addition of their waiting time by a value of $105$ units of time.
-
-\begin{figure}[H]
-    \begin{center}
-    \begin{tabular}{|c|c|c|c|}
-     \hline
-        $P_{1}$ & $P_{5}$ & $P_{4}$ & $P_{3}$\T\B\\ 
-     \hline
-    \end{tabular}
-    \end{center}
-    \begin{center}
-        \begin{tabular}{c c c c c}
-               105 & 110 & 120 & 150 & 190\\ 
-        \end{tabular}
-    \end{center}
-\caption{$Q_{2}$ Gantt Chart}
-\end{figure}
-
-
-
-\begin{figure}[H]
-    \begin{center}
-    \begin{tabular}{|c|c|}
-     \hline
-        P7 & P6\T\B\\ 
-     \hline
-    \end{tabular}
-    \end{center}
-    \begin{center}
-        \begin{tabular}{c c c}
-               190 & 390 & 600\\ 
-        \end{tabular}
-    \end{center}
-\caption{$Q_{3}$ Gantt Chart}
-\end{figure}
-
-Whenever processes reach the lowest queue precompletion, they are scheduled using the RR scheduling algorithm with a relatively large quantum time value which is in most cases similar to using the FCFS algorithm because, as the time quantum value of an RR algorithm tends to infinity which could practically be a very large number relative to the available processes remaining time values, the algorithm tends to morph into the FCFS algorithm. This procedure is iterated until all the processes are finished. Simulation results are shown in the table below:
-
-\begin{table}[H]
-    \caption{}
-    \centering
-     \begin{tabular}{||c c c||} 
-     \hline
-     \textit{\textbf{Avg. Turnaround Time}} & \textit{\textbf{Avg. Waiting Time}} & \textit{\textbf{Throughput}}\T \B \\ 
-     \hline
-     \hline
-     230 & 144.3 & 0.011667 \T \B \\ 
-     \hline
-     \end{tabular}
-\end{table}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% COMPARISONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Performance Comparisons}
-
-To assess the performance of the proposed algorithm implementation, multiple test cases are addressed and analyzed in seven different experiments. In each experiment, the output of the proposed algorithm implementation is compared to the output of another scheduling algorithm implementation addressed in a different paper, such as standard MLFQ algorithm with static quantum RR and other variants of MLFQ algorithms and RR algorithms.
+we implement global routing with A-Star router algorithm in c++ language
+with Rsyn to parse input test cases files with format LEF/DEF. All
+experiments are performed on a Machine with 2 GHZ Intel Processor
+and 8 GB RAM. our algorithm is focus on three important factors :total
+wire-length, channel congestion ,number of vias. Our target is to
+minimize a convex combination of the total wire-length and the number
+of vias that represent the bends in the tree that result in solving
+the net of pins to be connected.our test cases input are all from
+ICCAD'19 contest for global routing.we test our code with different
+heuristic functions -that affect the run time of A-Star- to check its
+effect on CPU run time.our concern is on wire-length and number of
+vias result from routing without increasing in-feasibility.we generate
+the trees of all nets in parallel to reduce running by using multi-threaded
+approach to generate the net results tree as this step has the most
+costly part of the router algorithm.our algorithm not only route each net to find a path that connect all pins of the net, but it also generate a set of connected rectangle for each net to be used in detailed routing and to minimize its cost. 
 
 \subsubsection{Experiment 1}
 
-In this experiment, the proposed algorithm is compared against two MLFQ algorithm variants stated in {b4}. The first uses a static version of the RR algorithm for scheduling each queue, while the second variant uses a dynamic version of the RR algorithm for doing so.
+In this experiment we compare run time of router with Dijkstra Router
+and out A-Star router with heuristic function with different constants
+of heuristic functions that affect the run time of the router.heuristic
+function help us to know how near the point to the target point so it help in decreasing the cost of routing:
 
-\begin{table}[H]
-    \caption{Experiment 1 Input}
-    \centering
-     \begin{tabular}{||c c c c||} 
-     \hline
-     \textit{\textbf{Process}} & \textit{\textbf{Arrival Time}} & \textit{\textbf{Burst Time}} & \textit{\textbf{Queue}} \T \B \\ 
-     \hline
-     \hline
-     1 & 1 & 25 & 1 \T \B \\ 
-     \hline
-     2 & 5 & 70 & 1 \T \B \\
-     \hline
-     3 & 6 & 84 & 1 \T \B \\
-     \hline
-     4 & 7 & 17 & 1 \T \B \\
-     \hline
-     5 & 8 & 35 & 1 \T \B \\ 
-     \hline
-     \end{tabular}
+\begin{multline*}
+h1=(\mid p1\cdot x-p2\cdot x\mid+\mid p1\cdot y-p2\cdot y\mid)*const1\\
++(\mid p1\cdot layerid-p2\cdot layerid\mid)*const2\\
+\end{multline*}
+
+\begin{multline*}
+h2=ln(\mid p1\cdot x-p2\cdot x\mid+\mid p1\cdot y-p2\cdot y\mid)*const1\\
++(\mid p1\cdot layerid-p2\cdot layerid\mid)*const2\\
+\end{multline*}
+
+\begin{multline*}
+h3=(\mid p1\cdot x-p2\cdot x\mid+\mid p1\cdot y-p2\cdot y\mid)*const1\\
++ln(\mid p1\cdot layerid-p2\cdot layerid\mid)*const2\\
+\end{multline*}
+
+
+{\tiny{}}
+\begin{table}[b]
+{\tiny{}\caption{\label{tab:Compare-run-time}Compare run time of Dijkstra router and
+A-Star router with Heuristic-Function 1}
+}{\tiny\par}
+\centering{}{\footnotesize{}}%
+\begin{adjustbox}{width=\columnwidth,center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multirow{2}{*}{{\footnotesize{}Design}} & \multicolumn{4}{c|}{{\footnotesize{}A-Star}} & \multirow{2}{*}{{\footnotesize{}Dijkstra}}\tabularnewline
+\cline{2-5} \cline{3-5} \cline{4-5} \cline{5-5} 
+ & {\footnotesize{}(0.2,0.1)} & {\footnotesize{}(0.3,0.3)} & {\footnotesize{}(0.5,0.5)} & \multicolumn{1}{c||}{{\footnotesize{}(0.5,0.5)}} & \tabularnewline
+\hline 
+\hline 
+{\footnotesize{}test1} & {\footnotesize{}75.843764} & {\footnotesize{}87.797614} & {\footnotesize{}87.086193} & {\footnotesize{}96.377979} & {\footnotesize{}91.348007}\tabularnewline
+\hline 
+{\footnotesize{}test2} & {\footnotesize{}2.511599} & {\footnotesize{}2.606054} & {\footnotesize{}2.874605} & {\footnotesize{}2.497377} & {\footnotesize{}3.435606}\tabularnewline
+\hline 
+{\footnotesize{}test3} & {\footnotesize{}12.381436} & {\footnotesize{}14.959666} & {\footnotesize{}14.859677} & {\footnotesize{}14.766495} & {\footnotesize{}11.824573}\tabularnewline
+\hline 
+{\footnotesize{}test4} & {\footnotesize{}0.075472} & {\footnotesize{}0.073069} & {\footnotesize{}0.073769} & {\footnotesize{}0.072691} & {\footnotesize{}0.071829}\tabularnewline
+\hline 
+{\footnotesize{}test5} & {\footnotesize{}0.073988} & {\footnotesize{}0.072911} & {\footnotesize{}0.074165} & {\footnotesize{}0.072767} & {\footnotesize{}0.071945}\tabularnewline
+\hline 
+{\footnotesize{}test6} & {\footnotesize{}6.948016} & {\footnotesize{}6.266789} & {\footnotesize{}5.198969} & {\footnotesize{}6.906992} & {\footnotesize{}7.0385}\tabularnewline
+\hline 
+\end{tabular}{\footnotesize\par}
+\end{adjustbox}
+\end{table}
+{\tiny\par}
+
+\begin{table}
+\caption{\label{tab:Compare-run-time-1}Compare run time of Dijkstra router
+and A-Star router with Heuristic-Function 2}
+
+\centering{}{\footnotesize{}}%
+\begin{adjustbox}{width=\columnwidth,center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multirow{2}{*}{{\footnotesize{}Design}} & \multicolumn{4}{c|}{{\footnotesize{}A-Star}} & \multirow{2}{*}{{\footnotesize{}Dijkstra}}\tabularnewline
+\cline{2-5} \cline{3-5} \cline{4-5} \cline{5-5} 
+ & {\footnotesize{}(0.1,0.1)} & {\footnotesize{}(0.2,0.1)} & {\footnotesize{}(0.3,0.3)} & {\footnotesize{}(0.5,0.5)} & \tabularnewline
+\hline 
+\hline 
+{\footnotesize{}test1} & {\footnotesize{}90.440165} & {\footnotesize{}93.288501} & {\footnotesize{}89.414646} & {\footnotesize{}96.377979} & {\footnotesize{}91.348007}\tabularnewline
+\hline 
+{\footnotesize{}test2} & {\footnotesize{}2.461400} & {\footnotesize{}2.469304} & {\footnotesize{}2.480592} & {\footnotesize{}2.497377} & {\footnotesize{}3.435606}\tabularnewline
+\hline 
+{\footnotesize{}test3} & {\footnotesize{}12.264829} & {\footnotesize{}13.449206} & {\footnotesize{}12.039944} & {\footnotesize{}14.766495} & {\footnotesize{}11.824573}\tabularnewline
+\hline 
+{\footnotesize{}test4} & {\footnotesize{}0.071577} & {\footnotesize{}0.157244} & {\footnotesize{}0.078624} & {\footnotesize{}0.072691} & {\footnotesize{}0.071829}\tabularnewline
+\hline 
+{\footnotesize{}test5} & {\footnotesize{}0.078316} & {\footnotesize{}0.090906} & {\footnotesize{}0.071333} & {\footnotesize{}0.072767} & {\footnotesize{}0.071945}\tabularnewline
+\hline 
+{\footnotesize{}test6} & {\footnotesize{}6.893310} & {\footnotesize{}6.400888} & {\footnotesize{}6.974920} & {\footnotesize{}6.906992} & {\footnotesize{}7.038505}\tabularnewline
+\hline 
+\end{tabular}{\footnotesize\par}
+\end{adjustbox}
 \end{table}
 
-\begin{table}[H]
-    \caption{Experiment 1 Results}
-    \centering
-    \begin{tabular}{||c c c||}
-        \hline
-        \textit{\textbf{Algorithm}} & \textit{\textbf{Avg. Turnaround Time}} & \textit{\textbf{Avg. Waiting Time}}\T \B \\
-    \hline
-    \hline
-    \textbf{Proposed Algorithm} & 115 & 68.8 \T \B\\ \hline
-    \textbf{Dynamic RR MLFQ} & 150.8 & 107.6\T \B\\ \hline
-    \textbf{Static RR MLFQ} & 161.4 & 116.2 \T \B\\ \hline
-     \end{tabular}
+\begin{table}
+{\tiny{}\caption{\label{tab:Continue-compare-run} compare run time of Dijkstra router
+and A-Star router with Heuristic-Function 3}
+}{\tiny\par}
+\centering{}{\footnotesize{}}%
+\begin{adjustbox}{width=\columnwidth,center}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+\multirow{2}{*}{{\footnotesize{}Design}} & \multicolumn{4}{c|}{{\footnotesize{}A-Star}} & \multirow{2}{*}{{\footnotesize{}Dijkstra}}\tabularnewline
+\cline{2-5} \cline{3-5} \cline{4-5} \cline{5-5} 
+ & {\footnotesize{}(0.1,0.1)} & {\footnotesize{}(0.2,0.1)} & {\footnotesize{}(0.3,0.3)} & {\footnotesize{}(0.5,0.5)} & \tabularnewline
+\hline 
+\hline 
+{\footnotesize{}test1} & {\footnotesize{}86.598509} & {\footnotesize{}83.204272} & {\footnotesize{}103.166426} & {\footnotesize{}102.378304} & {\footnotesize{}91.348007}\tabularnewline
+\hline 
+{\footnotesize{}test2} & {\footnotesize{}2.481847} & {\footnotesize{}2.486656} & {\footnotesize{}3.622759} & {\footnotesize{}2.556863} & {\footnotesize{}3.435606}\tabularnewline
+\hline 
+{\footnotesize{}test3} & {\footnotesize{}12.655603} & {\footnotesize{}15.447421} & {\footnotesize{}15.629251} & {\footnotesize{}20.004493} & {\footnotesize{}11.824573}\tabularnewline
+\hline 
+{\footnotesize{}test4} & {\footnotesize{}0.073731} & {\footnotesize{}0.070911} & {\footnotesize{}0.073468} & {\footnotesize{}0.103421} & {\footnotesize{}0.071829}\tabularnewline
+\hline 
+{\footnotesize{}test5} & {\footnotesize{}0.078171} & {\footnotesize{}0.079362} & {\footnotesize{}0.088107} & {\footnotesize{}0.099699} & {\footnotesize{}0.071945}\tabularnewline
+\hline 
+{\footnotesize{}test6} & {\footnotesize{}6.470339} & {\footnotesize{}7.195767} & {\footnotesize{}8.455288} & {\footnotesize{}7.637577} & {\footnotesize{}7.038505}\tabularnewline
+\hline 
+\end{tabular}{\footnotesize\par}
+\end{adjustbox}
 \end{table}
 
-\subsubsection{Experiment 2}
+we notice from Table\ref{tab:Compare-run-time},Table\ref{tab:Continue-compare-run},Table\ref{tab:Compare-run-time-1}
+that heuristic function affect the running time of router ,decreases
+it to be lower than Dijkstra router's running time in many test cases.
+the running time changes with the change of heuristic function constants.
+we notice that higher constants increase the running time and sometimes
+be greater than Dijkstra router's run time. Heuristic function 2 has
+overall results which is better than others, with using more efficient
+heuristic functions,run time and wire-length and vias number combination
+may improve greatly. 
 
-In this experiment, the proposed algorithm is compared against two MLFQ algorithm variants stated in {b4}. The first uses a static version of the SJFRR algorithm for scheduling each queue, while the second variant uses a dynamic version of the SJFRR algorithm for doing so. 
+\subsection{Performance Comparisons}
 
-\begin{table}[H]
-    \caption{Experiment 2 Input}
-    \centering
-     \begin{tabular}{||c c c c||} 
-     \hline
-     \textit{\textbf{Process}} & \textit{\textbf{Arrival Time}} & \textit{\textbf{Burst Time}} & \textit{\textbf{Queue}} \T \B \\ 
-     \hline
-     \hline
-     1 & 1 & 25 & 1 \T \B \\ 
-     \hline
-     2 & 5 & 70 & 1 \T \B \\
-     \hline
-     3 & 6 & 84 & 1 \T \B \\
-     \hline
-     4 & 7 & 17 & 1 \T \B \\
-     \hline
-     5 & 8 & 35 & 1 \T \B \\ 
-     \hline
-     \end{tabular}
+we used ISPD19 benchmarks to compare out results with another global
+routing algorithms such as TripleZ and NTUidRoute. we compare the
+results in terms of total wire length score and vias score. we compare
+results of our algorithm which focus on factors - total wire-length,number
+of vias in the routing results - with TripleZ and NTUidRoute algorithms
+in ICCAD'19 Table\ref{tab:compared-Wire-Lengh},Table \ref{tab:compared-Vias}
+.we use multi-threaded approach to generate net result trees in parallel
+so we have done our experiments using 8 threads in all test cases.
+score used as unit to compare ,score of wire length is a function
+of metal pitch and wire length and weight:
+
+\[
+WLScore=\frac{wire-length*weight}{metal-pitch}
+\]
+
+score of vias is function of number of vias :
+
+\[
+ViasScore=\#vias*2
+\]
+
+{\tiny{}}
+\begin{table}
+{\tiny{}\caption{\label{tab:compared-Wire-Lengh}compared Wire Length with TripleZ and
+NTUidRoute Algorithms in ICCAD'19 Global routing Contest }
+}{\tiny\par}
+\centering{}{\footnotesize{}}%
+\begin{tabular}{|c|c|c|c|}
+\hline 
+\multirow{2}{*}{{\footnotesize{}Design}} & \multicolumn{3}{c|}{{\footnotesize{}wire-length scores}}\tabularnewline
+\cline{2-4} \cline{3-4} \cline{4-4} 
+ & {\footnotesize{}TripleZ} & {\footnotesize{}NTUidRoute} & {\footnotesize{}ours}\tabularnewline
+\hline 
+{\footnotesize{}test1} & {\footnotesize{}12485549.76} & {\footnotesize{}12992510.61} & {\footnotesize{}12150100}\tabularnewline
+\hline 
+{\footnotesize{}test2} & {\footnotesize{}569622.01} & {\footnotesize{}466809.64} & {\footnotesize{}389460}\tabularnewline
+\hline 
+{\footnotesize{}test7} & {\footnotesize{}17800019.36} & {\footnotesize{}15935101.91} & {\footnotesize{}14663400}\tabularnewline
+\hline 
+{\footnotesize{}test3} & {\footnotesize{}2859212.04} & {\footnotesize{}2495661.79} & {\footnotesize{}2851900}\tabularnewline
+\hline 
+{\footnotesize{}test8} & {\footnotesize{}74264784.88} & {\footnotesize{}65028116.52} & {\footnotesize{}70041500}\tabularnewline
+\hline 
+{\footnotesize{}Avg} & {\footnotesize{}21595837.61} & {\footnotesize{}19383640} & {\footnotesize{}20019272}\tabularnewline
+\hline 
+\end{tabular}{\footnotesize\par}
+\end{table}
+{\tiny\par}
+
+\begin{table} [hbt!]
+\centering{}{\footnotesize{}\caption{\label{tab:compared-Vias}compared Vias TripleZ and NTUidRoute Algorithms
+in ICCAD'19 Global routing Contest}
+}%
+\begin{tabular}{|c|c|c|c|}
+\hline 
+\multirow{2}{*}{{\footnotesize{}Design}} & \multicolumn{3}{c|}{{\footnotesize{}vias score}}\tabularnewline
+\cline{2-4} \cline{3-4} \cline{4-4} 
+ & {\footnotesize{}TripleZ} & {\footnotesize{}NTUidRoute} & {\footnotesize{}ours}\tabularnewline
+\hline 
+\hline 
+{\footnotesize{}test1} & {\footnotesize{}3261476.00} & {\footnotesize{}4017448.00} & {\footnotesize{}2803560}\tabularnewline
+\hline 
+{\footnotesize{}test2} & {\footnotesize{}251728.00} & {\footnotesize{}318404.00} & {\footnotesize{}176728}\tabularnewline
+\hline 
+{\footnotesize{}test7} & {\footnotesize{}4265744.00} & {\footnotesize{}4789488.00} & {\footnotesize{}2666120}\tabularnewline
+\hline 
+{\footnotesize{}test3} & {\footnotesize{}695348.00} & {\footnotesize{}771328.00} & {\footnotesize{}446024}\tabularnewline
+\hline 
+{\footnotesize{}test8} & {\footnotesize{}19689760.00} & {\footnotesize{}23183264.00} & {\footnotesize{}12532800}\tabularnewline
+\hline 
+{\footnotesize{}Avg} & {\footnotesize{}5632811.2} & {\footnotesize{}6615986.4} & {\footnotesize{}3725046.4}\tabularnewline
+\hline 
+\end{tabular}
 \end{table}
 
-\begin{table}[H]
-    \caption{Experiment 2 Results}
-    \centering
-    \begin{tabular}{||c c c||}
-        \hline
-        \textit{\textbf{Algorithm}} & \textit{\textbf{Avg. Turnaround Time}} & \textit{\textbf{Avg. Waiting Time}}\T \B \\
-    \hline
-    \hline
-    \textbf{Proposed Algorithm} & 115 & 68.8 \T \B\\ \hline
-    \textbf{Dyn. SJFRR MLFQ} & 134 & 91.8\T \B\\ \hline
-    \textbf{Stat. SJFRRMLFQ} & 143.4 & 98.2 \T \B\\ \hline
-     \end{tabular}
-\end{table}
-
-\subsubsection{Experiment 3}
-
-In this experiment, the proposed algorithm is compared against two MLFQ algorithm variants stated in {b5}. The first uses a static version of the SJFRR algorithm for scheduling each queue, while the second variant uses a dynamic version of the SJFRR algorithm for doing so.
-
-\begin{table}[H]
-    \caption{Experiment 3 Input}
-    \centering
-     \begin{tabular}{||c c c c||} 
-     \hline
-     \textit{\textbf{Process}} & \textit{\textbf{Arrival Time}} & \textit{\textbf{Burst Time}} & \textit{\textbf{Queue}} \T \B \\ 
-     \hline
-     \hline
-     1 & 0 & 8 & 1 \T \B \\ 
-     \hline
-     2 & 3 & 133 & 3 \T \B \\
-     \hline
-     3 & 2 & 21 & 2 \T \B \\
-     \hline
-     4 & 8 & 39 & 2 \T \B \\
-     \hline
-     5 & 19 & 67 & 2 \T \B \\ 
-     \hline
-     6 & 33 & 114 & 3 \T \B \\ 
-     \hline
-     7 & 33 & 54 & 2 \T \B \\ 
-     \hline
-     \end{tabular}
-\end{table}
-
-\begin{table}[H]
-    \caption{Experiment 3 Results}
-    \centering
-    \begin{tabular}{||c c c||}
-        \hline
-        \textit{\textbf{Algorithm}} & \textit{\textbf{Avg. Turnaround Time}} & \textit{\textbf{Avg. Waiting Time}}\T \B \\
-    \hline
-    \hline
-    \textbf{Proposed Algorithm} & 151 & 88.7 \T \B\\ \hline
-    \textbf{Dyn. SJFRR MLFQ} & 252 & 119 \T \B\\ \hline
-    \textbf{Stat. SJFRR MLFQ} & 351 & 228 \T \B\\ \hline
-     \end{tabular}
-\end{table}
-
-\subsubsection{Experiment 4}
-
-In this experiment, the proposed algorithm is compared against multiple variants of the MLFQ algorithm that are stated in {b6}: standard MLFQ algorithm, a priority-based MLFQ algorithm and a vague logic-based MLFQ algorithm.
-
-\begin{table}[H]
-    \caption{Experiment 4 Input}
-    \centering
-     \begin{tabular}{||c c c c||} 
-     \hline
-     \textit{\textbf{Process}} & \textit{\textbf{Arrival Time}} & \textit{\textbf{Burst Time}} & \textit{\textbf{Queue}} \T \B \\ 
-     \hline
-     \hline
-     1 & 0 & 40 & 1 \T \B \\ 
-     \hline
-     2 & 0 & 30 & 1 \T \B \\
-     \hline
-     3 & 0 & 50 & 1 \T \B \\
-     \hline
-     4 & 2 & 70 & 1 \T \B \\
-     \hline
-     5 & 4 & 25 & 1 \T \B \\ 
-     \hline
-     6 & 6 & 60 & 1 \T \B \\ 
-     \hline
-     7 & 7 & 45 & 1 \T \B \\ 
-     \hline
-     \end{tabular}
-\end{table}
-
-\begin{table}[H]
-    \caption{Experiment 4 Results} 
-    \centering
-    \begin{tabular}{||c c c||}
-        \hline
-        \textit{\textbf{Algorithm}} & \textit{\textbf{Avg. Turnaround Time}} & \textit{\textbf{Avg. Waiting Time}}\T \B \\
-    \hline
-    \hline
-    \textbf{Proposed Algorithm} & 185.85 & 140.14 \T \B\\ \hline
-    \textbf{VMLFQ} & 190 & 170 \T \B\\ \hline
-    \textbf{MLFQ} & 232.14 & 175 \T \B\\ \hline
-    \textbf{PMLFQ} & 240 & 180 \T \B\\ \hline
-     \end{tabular}
-\end{table}
-
-\subsubsection{Experiment 5}
-
-This experiment is the same as the previous one, but with a different input test case. 
-
-\begin{table}[H]
-    \caption{Experiment 5 Input}
-    \centering
-     \begin{tabular}{||c c c c||} 
-     \hline
-     \textit{\textbf{Process}} & \textit{\textbf{Arrival Time}} & \textit{\textbf{Burst Time}} & \textit{\textbf{Queue}} \T \B \\ 
-     \hline
-     \hline
-     1 & 0 & 90 & 1 \T \B \\ 
-     \hline
-     2 & 0 & 30 & 1 \T \B \\
-     \hline
-     3 & 0 & 28 & 1 \T \B \\
-     \hline
-     4 & 0 & 57 & 1 \T \B \\
-     \hline
-     5 & 0 & 73 & 1 \T \B \\ 
-     \hline
-     6 & 0 & 19 & 1 \T \B \\ 
-     \hline
-     7 & 0 & 42 & 1 \T \B \\ 
-     \hline
-     8 & 0 & 67 & 1 \T \B \\ 
-     \hline
-     \end{tabular}
-\end{table}
-
-\begin{table}[H]
-    \caption{Experiment 5 Results}
-    \centering
-    \begin{tabular}{||c c c||}
-        \hline
-        \textit{\textbf{Algorithm}} & \textit{\textbf{Avg. Turnaround Time}} & \textit{\textbf{Avg. Waiting Time}}\T \B \\
-    \hline
-    \hline
-    \textbf{Proposed Algorithm} & 212.5 & 161.75 \T \B\\ \hline
-    \textbf{VMLFQ} & 260 & 225 \T \B\\ \hline
-    \textbf{MLFQ} & 290 & 240 \T \B\\ \hline
-    \textbf{PMLFQ} & 300 & 245 \T \B\\ \hline
-     \end{tabular}
-\end{table}
-
-\subsubsection{Experiment 6}
-
-In this experiment, the proposed algorithm is compared against two variants of the RR algorithm stated in {b3}. The first is a static version of the RR algorithm with a constant quantum value of $25$ for scheduling each queue while the second uses a dynamic version of the RR algorithm called SRBRR for doing so. 
-
-\begin{table}[H]
-    \caption{Experiment 6 Input}
-    \centering
-     \begin{tabular}{||c c c c||} 
-     \hline
-     \textit{\textbf{Process}} & \textit{\textbf{Arrival Time}} & \textit{\textbf{Burst Time}} & \textit{\textbf{Queue}} \T \B \\ 
-     \hline
-     \hline
-     1 & 0 & 13 & 1 \T \B \\ 
-     \hline
-     2 & 0 & 35 & 1 \T \B \\
-     \hline
-     3 & 0 & 46 & 1 \T \B \\
-     \hline
-     4 & 0 & 63 & 1 \T \B \\
-     \hline
-     5 & 0 & 97 & 1 \T \B \\ 
-     \hline
-     \end{tabular}
-\end{table}
-
-\begin{table}[H]
-    \caption{Experiment 6 Results}
-    \centering
-    \begin{tabular}{||c c c||}
-        \hline
-        \textit{\textbf{Algorithm}} & \textit{\textbf{Avg. Turnaround Time}} & \textit{\textbf{Avg. Waiting Time}}\T \B \\
-    \hline
-    \hline
-    \textbf{Proposed Algorithm} & 113.2 & 62.4 \T \B\\ \hline
-    \textbf{Dynamic SRBRR} & 122.4 & 71.6 \T \B\\ \hline
-    \textbf{Static RR} & 148.2 & 97.4 \T \B\\ \hline
-     \end{tabular}
-\end{table}
-
-\subsubsection{Experiment 7}
-
-This experiment is the same as the previous one, but with a different input test case. Note that for this test case, a process queue number is irrelevant to both the RR algorithm and the SRBRR algorithm mentioned in {b3}.
-
-\begin{table}[H]
-    \caption{Experiment 7 Input}
-    \centering
-     \begin{tabular}{||c c c c||} 
-     \hline
-     \textit{\textbf{Process}} & \textit{\textbf{Arrival Time}} & \textit{\textbf{Burst Time}} & \textit{\textbf{Queue}} \T \B \\ 
-     \hline
-     \hline
-     1 & 0 & 54 & 1 \T \B \\ 
-     \hline
-     2 & 0 & 99 & 3 \T \B \\
-     \hline
-     3 & 0 & 5 & 2 \T \B \\
-     \hline
-     4 & 0 & 27 & 2 \T \B \\
-     \hline
-     5 & 0 & 32 & 2 \T \B \\ 
-     \hline
-     \end{tabular}
-\end{table}
-
-\begin{table}[H]
-    \caption{Experiment 7 Results}
-    \centering
-    \begin{tabular}{||c c c||}
-        \hline
-        \textit{\textbf{Algorithm}} & \textit{\textbf{Avg. Turnaround Time}} & \textit{\textbf{Avg. Waiting Time}}\T \B \\
-    \hline
-    \hline
-    \textbf{Dynamic SRBRR} & 93.6 & 50.2 \T \B\\ \hline
-    \textbf{Proposed Algorithm} & 106.8 & 63.4 \T \B\\ \hline
-    \textbf{Static RR} & 152.2 & 108.8 \T \B\\ \hline
-     \end{tabular}
-\end{table}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% OBSERVATION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Observation}
 
-From the above simulations of different test cases and multiple performance comparisons that involved as many as 11 different scheduling algorithms not including this paper algorithm, it is clear that the average turnaround time and the average waiting time of the proposed algorithm is less than or – in few occasions  – nearly equal to those of the stated algorithms. With that said, the proposed algorithm is arguably advantageous over those algorithms, considering even the case in which it underperformed compared to the SRBRR algorithm, it is still favourable due to the capability to separate processes into categories based on their need for the processor and other advantages of the MLFQ algorithm. The performance of the proposed algorithm compared to other algorithms is further illustrated in the following graphs:
-
-\begin{figure}[H]
-    \begin{center}
-\begin{tikzpicture}
-    \begin{axis}[
-        width=0.475*\textwidth,
-        symbolic x coords={Exp. 1,Exp. 2,Exp. 3,Exp. 4,Exp. 5,Exp. 6,Exp. 7},
-        ylabel=Avg. Turnaround Time,
-        enlargelimits=0.15,
-        legend style={at={(0.5,-0.25)}, anchor=north,legend columns=1},
-        ybar,
-        xtick={Exp. 1,Exp. 2,Exp. 3,Exp. 4,Exp. 5,Exp. 6,Exp. 7},
-        x tick label style={rotate=45,anchor=east},
-        bar width=3pt,
-        cycle list name=color list
-    ]
-
-    \addplot[plot 0,bar group size={0}{3}, red]
-    coordinates {(Exp. 1,115) (Exp. 2,115) (Exp. 3,151) (Exp. 6,113.2) (Exp. 7,106.8)};
-    \addplot[plot 1,bar group size={1}{3}, green]
-    coordinates {(Exp. 1,150.8)};
-    \addplot[plot 2,bar group size={2}{3}, cyan]
-    coordinates {(Exp. 1,161.4)};
-
-    \addplot[plot 1,bar group size={1}{3}, black]
-    coordinates {(Exp. 2,134)};
-    \addplot[plot 2,bar group size={2}{3}, brown]
-    coordinates {(Exp. 2,143.4)};
-
-    \addplot[plot 1,bar group size={1}{3}, teal]
-    coordinates {(Exp. 3,252)};
-    \addplot[plot 2,bar group size={2}{3}, violet]
-    coordinates {(Exp. 3,351)};
-
-    \addplot[plot 0,bar group size={0}{4}, red]
-    coordinates {(Exp. 4,185.85) (Exp. 5,212.5)};
-    \addplot[plot 1,bar group size={1}{4}, lime]
-    coordinates {(Exp. 4,190) (Exp. 5,260)};
-    \addplot[plot 2,bar group size={2}{4}, orange]
-    coordinates {(Exp. 4,232.14) (Exp. 5,290)};
-    \addplot[plot 3,bar group size={3}{4}, olive]
-    coordinates {(Exp. 4,240) (Exp. 5,300)};
-
-    \addplot[plot 1,bar group size={1}{3}, cyan]
-    coordinates {(Exp. 6,122.4) (Exp. 7,93.6)};
-    \addplot[plot 2,bar group size={2}{3}, magenta]
-    coordinates {(Exp. 6,148.2) (Exp. 7,152.2)};
-    
-    \legend{Proposed Algorithm,Dynamic RR MLFQ, Static RR MLFQ, Dyn. SJFRR MLFQ of {b4},  Stat. SJFRR MLFQ of {b4}, Dyn. SJFRR MLFQ of {b5}, Stat. SJFRR MLFQ of {b5}, VMLFQ, MLFQ, PMLFQ, Dynamic SRBRR, Static RR}
-    \end{axis}
-\end{tikzpicture}
-\end{center}
-\caption{Comparison graph for average turnaround time}
-\vspace{45mm}
-\end{figure}
-
-\begin{figure}[H]
-    \begin{center}
-\begin{tikzpicture}
-    \begin{axis}[
-        width=0.475*\textwidth,
-        symbolic x coords={Exp. 1,Exp. 2,Exp. 3,Exp. 4,Exp. 5,Exp. 6,Exp. 7},
-        ylabel=Avg. Waiting Time,
-        enlargelimits=0.15,
-        legend style={at={(0.5,-0.25)}, anchor=north,legend columns=1},
-        ybar,
-        xtick={Exp. 1,Exp. 2,Exp. 3,Exp. 4,Exp. 5,Exp. 6,Exp. 7},
-        x tick label style={rotate=45,anchor=east},
-        bar width=3pt,
-        cycle list name=color list
-    ]
-
-    \addplot[plot 0,bar group size={0}{3}, red]
-    coordinates {(Exp. 1,68.8) (Exp. 2,68.8) (Exp. 3,88.7) (Exp. 6,62.4) (Exp. 7,63.4)};
-    \addplot[plot 1,bar group size={1}{3}, green]
-    coordinates {(Exp. 1,107.6)};
-    \addplot[plot 2,bar group size={2}{3}, cyan]
-    coordinates {(Exp. 1,116.2)};
-
-    \addplot[plot 1,bar group size={1}{3}, black]
-    coordinates {(Exp. 2,91.8)};
-    \addplot[plot 2,bar group size={2}{3}, brown]
-    coordinates {(Exp. 2,98.2)};
-
-    \addplot[plot 1,bar group size={1}{3}, teal]
-    coordinates {(Exp. 3,119)};
-    \addplot[plot 2,bar group size={2}{3}, violet]
-    coordinates {(Exp. 3,228)};
-
-    \addplot[plot 0,bar group size={0}{4}, red]
-    coordinates {(Exp. 4,140.14) (Exp. 5,161.75)};
-    \addplot[plot 1,bar group size={1}{4}, lime]
-    coordinates {(Exp. 4,170) (Exp. 5,225)};
-    \addplot[plot 2,bar group size={2}{4}, orange]
-    coordinates {(Exp. 4,175) (Exp. 5,240)};
-    \addplot[plot 3,bar group size={3}{4}, olive]
-    coordinates {(Exp. 4,180) (Exp. 5,245)};
-
-    \addplot[plot 1,bar group size={1}{3}, cyan]
-    coordinates {(Exp. 6,71.6) (Exp. 7,50.2)};
-    \addplot[plot 2,bar group size={2}{3}, magenta]
-    coordinates {(Exp. 6,97.2) (Exp. 7,108.8)};
-    
-    \legend{Proposed Algorithm,Dynamic RR MLFQ, Static RR MLFQ, Dyn. SJFRR MLFQ of {b4},  Stat. SJFRR MLFQ of {b4}, Dyn. SJFRR MLFQ of {b5}, Stat. SJFRR MLFQ of {b5}, VMLFQ, MLFQ, PMLFQ, Dynamic SRBRR, Static RR}
-    \end{axis}
-\end{tikzpicture}
-\end{center}
-\caption{Comparison graph for average waiting time}
-\end{figure}
+for each benchmark we obtained wire length score and vias score for
+specific metal pitch and weight that used in score equation.we notice
+that our algorithm achieved wire-length score less than TripleZ with
+7.3\% and greater than NTUidRoute with 3.28\% in average.our vias
+score is less than TripleZ's score by 33.86\% so our total results
+is better than TripleZ's results in the two factors.wire length of
+our algorithm is greater than NTUidRoute due to that we attempted
+to minimize the total score combination of wire length and vias number
+so the total average score of our results is less than NTUidRoute's
+results.Decreasing wire length affect the vias number greatly so
+our vias score is less than NTUidRoute's vias score by 43\% due to that
+we try to decrease it as the vias is one of the sources of heat generation
+in the chip.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CONCLUSION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
