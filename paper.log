@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.5.26)  1 JUN 2020 02:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (MiKTeX 2.9.7440 64-bit) (preloaded format=pdflatex 2020.5.26)  1 JUN 2020 03:40
 entering extended mode
 **"e:/Muhanad/CUFE/Third year/2nd Semester/VLSI/Final Assessment/global-routing-algorithm/paper.tex"
 ("e:/Muhanad/CUFE/Third year/2nd Semester/VLSI/Final Assessment/global-routing-algorithm/paper.tex"
@@ -555,17 +555,17 @@ Overfull \hbox (18.0387pt too wide) in paragraph at lines 77--77
 
 
 ] [2]
-Underfull \hbox (badness 10000) in paragraph at lines 356--358
+Underfull \hbox (badness 10000) in paragraph at lines 358--360
 
  []
 
 
-Underfull \hbox (badness 1558) in paragraph at lines 393--394
+Underfull \hbox (badness 1558) in paragraph at lines 395--396
 [] $\OML/cmm/m/it/10 neighbour$\OT1/ptm/m/n/10 .$\OML/cmm/m/it/10 h$ \OT1/ptm/m/n/10 = dis-tance from $\OML/cmm/m/it/10 d$ \OT1/ptm/m/n/10 to
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 394--395
+Underfull \hbox (badness 10000) in paragraph at lines 396--397
 [] $\OML/cmm/m/it/10 neighbour$\OT1/ptm/m/n/10 .$\OML/cmm/m/it/10 f$ \OT1/ptm/m/n/10 = $\OML/cmm/m/it/10 neighbour$\OT1/ptm/m/n/10 .$\OML/cmm/m/it/10 g$ \OT1/ptm/m/n/10 +
  []
 
@@ -574,7 +574,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3]
 
-LaTeX Warning: Reference `eq1' on page 4 undefined on input line 545.
+LaTeX Warning: Reference `eq1' on page 4 undefined on input line 547.
 
 [4] [5] [6] [7]
 
@@ -607,7 +607,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  63i,19n,108p,2658b,2368s stack positions out of 5000i,500n,10000p,200000b,50000s
 {C:/Program Files/MiKTeX 2.9/fonts/enc/dvips/base/8r.enc}<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmb8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmbi8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmr8a.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/urw/times/utmri8a.pfb>
-Output written on "e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\global-routing-algorithm\paper.pdf" (8 pages, 177792 bytes).
+Output written on "e:/Muhanad\CUFE\Third year\2nd Semester\VLSI\Final Assessment\global-routing-algorithm\paper.pdf" (8 pages, 177530 bytes).
 PDF statistics:
  81 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

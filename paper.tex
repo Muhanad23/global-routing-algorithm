@@ -26,7 +26,7 @@
                 (.5+#1)*\pgfplotbarwidth + #1*\pgfkeysvalueof{/pgfplots/bar group skip}},%
     },
     bar group skip/.initial=2pt,
-    plot 0/.style={blue,fill=blue!30!white,mark=none},%
+    plot 0/.style={cyan,fill=cyan!30!white,mark=none},%
     plot 1/.style={red,fill=red!30!white,mark=none},%
     plot 2/.style={brown!60!black,fill=brown!30!white,mark=none},%
     plot 3/.style={brown!60!black,fill=brown!30!white,mark=none},%
@@ -211,7 +211,7 @@ Routing is a critical step in the physical design process. Until now the optimum
 \caption{Finding path in global routing}
 \label{fig:GlobalRoutingProcess}
 \end{figure}
-
+\medskip
 Figure~\ref{fig:GlobalRoutingProcess} shows a very simple approach of how the global router works. At (a) the source and target of both (A,B) need to be connected ignoring obstacles, nevertheless we can observe that the global router have to iterate to get the best routing paths, at (b) (B,B) connected but there is no way to connect (A,A) as when (B,B) connected together they blocked the way for (A,A) to be connected, after some iterations we can find the figure at (c) in which (A,A) and (B,B) connected correctly, but there is a problem, the (A,A) connection is not the optimal path as there are paths which achieve less wire length, so the global router have to iterate until reaching the optimal path. These iterations are done for only two connections in one layer without obstacles, then how about millions of wires in VLSI? this shows how much the global routing algorithm has to be very fast in order to connect this huge number of wires as fast as possible.
 
 
@@ -222,8 +222,10 @@ Figure~\ref{fig:GlobalRoutingProcess} shows a very simple approach of how the gl
 \section{Related Work}
 
 Several papers proposed various types of approaches to improve the routing process, each of them tried to improve the overall routing by improving one or more parameters, some papers tried to decrease the number of vias, other papers tried to decrease the time taken and so on.
+\medskip
 \par
 In \cite{b1} a sequential global routing is used and two bounded length maze algorithms as finding path algorithms are provided in order to make the router faster and to avoid congestions thus avoiding overflow, the first one is optimal-BLMR and the second one is heuristic-BLMR. optimal-BLMR is used to get the minimum cost paths to be used as routing paths, this can be done in three steps. First BLC (bounded length constraint) is defined as a greater number than Manhattan distance then to go from source to target the neighbor points are tested if it can be a part of a path or not, each point that violates the BLC constraint is discarded. Second, if the route started from point \textit{v}, ended at point \textit{u} and there were many paths between these two points, the normal maze algorithm will take the path with the minimum cost which may cause the route to pass through congestions, but in optimal-BLMR, it keeps track of all paths between these two points in order to choose the path that will not cause overflow, it iterates on the minimum cost path every time and if it found a suitable path it reserves that path, otherwise, it discards that path. Third step the optimal-BLMR iterates on the reserved paths and choose the one to be used for routing. Heuristic-BLMR is used to speed the router up by reserving only one path between the two points, but it has to keep the advantage of optimal-BLMR (avoiding congestions), this can be achieved by reserving the selected path only if the wire length is enough to detour around congested regions. The advantages of this paper are using sequential global routing which is based on multithreaded global routing which speedup the router between $2.71$ and $3.12$ in overflow free cases, avoiding collision by using optimal-BLMR, and making a fast and nearly avoiding collision algorithm (heuristic-BLMR). But there are some disadvantages too, as optimal-BLMR is very slow to be used, although heuristic-BLMR is faster than optimal-BLMR its results are not accurate as the wire length is not the best compared with other papers, and it is done on \textit{2D} grid then it is projected to the \textit{3D} one however, this approach gives a good result but it is not accurate like routers that apply routing in the \textit{3D} grid directly as in \cite{b9}.
+\medskip
 \par
 In \cite{b4}, both of via count and runtime are reduced, this done by integrating \cite{b10}, \cite{b11}, and \cite{b12} with via aware Steiner tree generation, 3-bend routing, and layer assignment with careful edge and net ordering to create \cite{b4}. Via aware Steiner tree is used to at the beginning of the global routing, it generates a suitable topology, by changing tree topology the via count greatly changed, which means that using a suitable topology for Steiner tree will greatly reduce the via count. The 3-bend routing is used instead of L, U, Z, maze, and monotonic routing, as L, U, Z routing can not avoid congestions but they generate a little number of vias, maze and monotonic can avoid congestions but they generate a lot of vias and their runtime is very high, so the 3-bend routing was used as it is fast, its completely \textit{O(nm)}, and it generates vias less than maze and monotonic routing as it consists of two L routing. Layer assignment with careful ordering algorithm is used as a solution of \textit{3D}, it is like all the modern techniques project the \textit{3D} grid into \textit{2D} one to be easier and faster in routing, this algorithm guarantees the wire length and overflow unchanged on assigning to layers, dynamic programming is used in layer assignment to make it faster. From the previous explanation, the advantages of this paper are decreasing the number of vias, which means less power consumption and circuit delay, and decreasing runtime of global routing thus decreasing runtime of whole the routing process. But it has disadvantages too, one of them is the wire length is not optimal, as using 3-bend routing increases the wire length to avoid congestions, another one is caused by layer assignment as if the \textit{2D} was not congestion-free the results will not be accurate.
 
@@ -234,7 +236,7 @@ In \cite{b4}, both of via count and runtime are reduced, this done by integratin
 
 
 \section{Proposed Approach}
-For global routing, three parameters are considered. The first is the total wire length, the second is the total overflow. The third is the running time. In our proposed solution, we are focused on the time parameter without affecting much the total wire length and total overflow. So according to minimize the time we have decided to apply A* algorithm as the pathfinder algorithm with a proposed heuristic function, A* is basically a guided variation of Dijkstra. This algorithm can be turned into a better or worse pathfinding algorithm by experimenting with the heuristics it uses and how it evaluates each node a* expands on a node only if it seems promising. Its only focus is to reach the goal node as quickly as possible from the current node, not to try and reach every other node. Illustrative example:
+For global routing, three parameters are considered. The first is the total wire length, the second is the total overflow. The third is the running time. In our proposed solution, we are focused on the time parameter without affecting much the total wire length and total overflow. So according to minimize the time we have decided to apply A-Star algorithm as the pathfinder algorithm with a proposed heuristic function, A-Star is basically a guided variation of Dijkstra. This algorithm can be turned into a better or worse pathfinding algorithm by experimenting with the heuristics it uses and how it evaluates each node A-Star expands on a node only if it seems promising. Its only focus is to reach the goal node as quickly as possible from the current node, not to try and reach every other node. Illustrative example:
 \begin{figure} [hbt!]
     \centering  
     \subfigure[Maze] {
@@ -247,8 +249,8 @@ For global routing, three parameters are considered. The first is the total wire
         \foreach \y in {0,0.5,...,2}
             \node[box] at (\x,\y){};
     }
-    \node [box,fill=green] at (0.5,1){S};
-    \node[box,fill=green  ] at (3,1){D};  
+    \node [box,fill=orange] at (0.5,1){S};
+    \node[box,fill=orange  ] at (3,1){D};  
     \node[box,fill=black  ] at (2,1){ };  
     \end{tikzpicture}
 }
@@ -264,48 +266,48 @@ For global routing, three parameters are considered. The first is the total wire
             \node[box] at (\x,\y){};
     }
 
-    \node [box,fill=blue] at (0,0){};
-    \node [box,fill=blue] at (0.5,0){};
-    \node [box,fill=blue] at (1,0){};
-    \node [box,fill=blue] at (1.5,0){};
-    \node [box,fill=blue] at (2,0){};
-    \node [box,fill=blue] at (2.5,0){};
-    \node [box,fill=blue] at (3,0){};
-    \node [box,fill=blue] at (0,0.5){};
-    \node [box,fill=blue] at (0.5,0.5){};
-    \node [box,fill=blue] at (1,0.5){};
-    \node [box,fill=blue] at (1.5,0.5){};
-    \node [box,fill=blue] at (2,0.5){};
-    \node [box,fill=blue] at (2.5,0.5){};
-    \node [box,fill=blue] at (3,0.5){};
-    \node [box,fill=blue] at (3.5,.5){};
-    \node [box,fill=blue] at (2.5,1){};
-    \node [box,fill=blue] at (0,1){};
-    \node [box,fill=blue] at (2.5,0.5){};
-    \node [box,fill=blue] at (0,2){};
-    \node [box,fill=blue] at (0.5,2){};
-    \node [box,fill=blue] at (1,2){};
-    \node [box,fill=blue] at (1.5,2){};
-    \node [box,fill=blue] at (2,2){};
-    \node [box,fill=blue] at (2.5,2){};
-    \node [box,fill=blue] at (3,2){};
-    \node [box,fill=blue] at (3.5,2){};
-    \node [box,fill=blue] at (3.5,1.5){};
-    \node [box,fill=blue] at (0,1.5){};
-    \node [box,fill=blue] at (0.5,1.5){};
-    \node [box,fill=blue] at (1,1.5){};
-    \node [box,fill=yellow] at (0.5,1){S};
-    \node [box,fill=yellow] at (1,1){};
-    \node [box,fill=yellow] at (1.5,1){};
-    \node [box,fill=yellow] at (1.5,1.5){};
-    \node [box,fill=yellow] at (2,1.5){};
-    \node [box,fill=yellow] at (2.5,1.5){};
-    \node [box,fill=yellow] at (3,1.5){};
-    \node[box,fill=yellow  ] at (3,1){D};  
+    \node [box,fill=cyan] at (0,0){};
+    \node [box,fill=cyan] at (0.5,0){};
+    \node [box,fill=cyan] at (1,0){};
+    \node [box,fill=cyan] at (1.5,0){};
+    \node [box,fill=cyan] at (2,0){};
+    \node [box,fill=cyan] at (2.5,0){};
+    \node [box,fill=cyan] at (3,0){};
+    \node [box,fill=cyan] at (0,0.5){};
+    \node [box,fill=cyan] at (0.5,0.5){};
+    \node [box,fill=cyan] at (1,0.5){};
+    \node [box,fill=cyan] at (1.5,0.5){};
+    \node [box,fill=cyan] at (2,0.5){};
+    \node [box,fill=cyan] at (2.5,0.5){};
+    \node [box,fill=cyan] at (3,0.5){};
+    \node [box,fill=cyan] at (3.5,.5){};
+    \node [box,fill=cyan] at (2.5,1){};
+    \node [box,fill=cyan] at (0,1){};
+    \node [box,fill=cyan] at (2.5,0.5){};
+    \node [box,fill=cyan] at (0,2){};
+    \node [box,fill=cyan] at (0.5,2){};
+    \node [box,fill=cyan] at (1,2){};
+    \node [box,fill=cyan] at (1.5,2){};
+    \node [box,fill=cyan] at (2,2){};
+    \node [box,fill=cyan] at (2.5,2){};
+    \node [box,fill=cyan] at (3,2){};
+    \node [box,fill=cyan] at (3.5,2){};
+    \node [box,fill=cyan] at (3.5,1.5){};
+    \node [box,fill=cyan] at (0,1.5){};
+    \node [box,fill=cyan] at (0.5,1.5){};
+    \node [box,fill=cyan] at (1,1.5){};
+    \node [box,fill=orange] at (0.5,1){S};
+    \node [box,fill=orange] at (1,1){};
+    \node [box,fill=orange] at (1.5,1){};
+    \node [box,fill=orange] at (1.5,1.5){};
+    \node [box,fill=orange] at (2,1.5){};
+    \node [box,fill=orange] at (2.5,1.5){};
+    \node [box,fill=orange] at (3,1.5){};
+    \node[box,fill=orange  ] at (3,1){D};  
     \node[box,fill=black  ] at (2,1){ };  
     \end{tikzpicture}
 }
-\subfigure[Applying A*] {
+\subfigure[Applying A-Star] {
     \begin{tikzpicture}
         [
             box/.style={rectangle,draw=black,thick, minimum size=0.5cm},
@@ -315,33 +317,33 @@ For global routing, three parameters are considered. The first is the total wire
         \foreach \y in {0,0.5,...,2}
             \node[box] at (\x,\y){};
     }
-    \node [box,fill=yellow] at (0.5,1){S};
-    \node[box,fill=yellow  ] at (3,1){D};
-    \node [box,fill=yellow] at (0.5,1.5){};  
-    \node [box,fill=yellow] at (1,1.5){};  
-    \node [box,fill=yellow] at (1.5,1.5){};
-    \node [box,fill=yellow] at (2,1.5){};
-    \node [box,fill=yellow] at (2.5,1.5){};
-    \node [box,fill=yellow] at (3,1.5){};
-    \node [box,fill=blue] at (0,1){};
-    \node [box,fill=blue] at (1,1){};
-    \node [box,fill=blue] at (1.5,1){};
+    \node [box,fill=orange] at (0.5,1){S};
+    \node[box,fill=orange  ] at (3,1){D};
+    \node [box,fill=orange] at (0.5,1.5){};  
+    \node [box,fill=orange] at (1,1.5){};  
+    \node [box,fill=orange] at (1.5,1.5){};
+    \node [box,fill=orange] at (2,1.5){};
+    \node [box,fill=orange] at (2.5,1.5){};
+    \node [box,fill=orange] at (3,1.5){};
+    \node [box,fill=cyan] at (0,1){};
+    \node [box,fill=cyan] at (1,1){};
+    \node [box,fill=cyan] at (1.5,1){};
     \node[box,fill=black  ] at (2,1){ };  
     \end{tikzpicture}
 }
-\caption{Comparison between Dijkstra \& A* }
+\caption{Comparison between Dijkstra \& A-Star }
 \label{fig:GlobalRoutingProcess}
 \end{figure}
-
-In the illustrative example the visited nodes are marked in blue color and the path is in yellow color.
-Both have path of six cells which in our case they have optimal wire length but totally different running time as Dijkstra visits much more nodes than A*
-, in the case of many target nodes, Dijkstra might be better in total wire length but much slower than A*, with an appropriate heuristic function we can minimize the time and try to reach optimal wire length. The heuristic function is a way of informing the search about the path to a target that provides an intelligent way of guessing which neighbor of the node is going to lead to the target faster. Hence, our heuristic function composed of Manhattan distance, layer index, and some constants.
+\medskip
+In the illustrative example the visited nodes are marked in cyan color, the path is in orange color, and the blocked cells are black.
+Both have path of six cells which in our case they have optimal wire length but totally different running time as Dijkstra visits much more nodes than A-Star
+, in the case of many target nodes, Dijkstra might be better in total wire length but much slower than A-Star, with an appropriate heuristic function we can minimize the time and try to reach optimal wire length. The heuristic function is a way of informing the search about the path to a target that provides an intelligent way of guessing which neighbor of the node is going to lead to the target faster. Hence, our heuristic function composed of Manhattan distance, layer index, and some constants.
 
 \begin{multline*}
     h = \ln ((\mid p1 \cdot x-p2 \cdot x\mid+\mid p1 \cdot y-p2 \cdot y\mid)*const1) \\ 
      +(\mid p1 \cdot layerid-p2 \cdot layerid\mid)*const2 \\
 \end{multline*}
-The global router is implemented using C++ with the boost library, and a parser for LEF/DEF formats. We conducted our experiment with the same configuration and tried to test the global router behavior using A* algorithm instead of Dijkstra's.
+The global router is implemented using C++ with the boost library, and a parser for LEF/DEF formats. We conducted our experiment with the same configuration and tried to test the global router behavior using A-Star algorithm instead of Dijkstra's.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -352,11 +354,11 @@ The global router is implemented using C++ with the boost library, and a parser 
 % \floatstyle{norules}
 \restylefloat{algorithm}
 \begin{algorithm}[H]
-    \caption{A* Algorithm}
+    \caption{A-Star Algorithm}
     \hspace*{\algorithmicindent} \textbf{Input:} Grid values $g$, Source $s$, Destination $d$\\
     \hspace*{\algorithmicindent} \textbf{Output:} Path\\
     \begin{algorithmic}[1]
-    \Procedure {A*}{}
+    \Procedure {A-Star}{}
     % Return  Average waiting time, throughput
     \Statex Declaration and Initialisation:
     \State Cells $\theta$ % The Cells in the grid.
@@ -900,7 +902,7 @@ From the above simulations of different test cases and multiple performance comp
     coordinates {(Exp. 1,115) (Exp. 2,115) (Exp. 3,151) (Exp. 6,113.2) (Exp. 7,106.8)};
     \addplot[plot 1,bar group size={1}{3}, green]
     coordinates {(Exp. 1,150.8)};
-    \addplot[plot 2,bar group size={2}{3}, blue]
+    \addplot[plot 2,bar group size={2}{3}, cyan]
     coordinates {(Exp. 1,161.4)};
 
     \addplot[plot 1,bar group size={1}{3}, black]
@@ -937,7 +939,7 @@ From the above simulations of different test cases and multiple performance comp
 
 \begin{figure}[H]
     \begin{center}
-\begin{tikzpicture}
+\begin{tikzpicture} 
     \begin{axis}[
         width=0.475*\textwidth,
         symbolic x coords={Exp. 1,Exp. 2,Exp. 3,Exp. 4,Exp. 5,Exp. 6,Exp. 7},
@@ -955,7 +957,7 @@ From the above simulations of different test cases and multiple performance comp
     coordinates {(Exp. 1,68.8) (Exp. 2,68.8) (Exp. 3,88.7) (Exp. 6,62.4) (Exp. 7,63.4)};
     \addplot[plot 1,bar group size={1}{3}, green]
     coordinates {(Exp. 1,107.6)};
-    \addplot[plot 2,bar group size={2}{3}, blue]
+    \addplot[plot 2,bar group size={2}{3}, cyan]
     coordinates {(Exp. 1,116.2)};
 
     \addplot[plot 1,bar group size={1}{3}, black]
