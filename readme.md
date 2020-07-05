@@ -1,11 +1,11 @@
 # Improved Global Routing Using A-Star Algorithm
 
-| Name                         | Sec | B.N |              Email               |
-| ---------------------------- | :-: | :-: | :------------------------------: |
-| Muhanad Atef Mustafa Mekkawy |  2  | 26  |     muhanad.atef23@gmail.com     |
-| Abdulrahman Khalid Hassan    |  1  | 31  | abdulrahman.elshafei98@gmail.com |
-| Mahmoud Mohamed Mahmoud Ali  |  2  | 22  |        Mmmacmp@gmail.com         |
-| Hossam ahmed mahmoud ibrahem |  1  | 15  |   hossamahmed201515@gmail.com    |
+| Name                         |              Email               |
+| ---------------------------- | :------------------------------: |
+| Muhanad Atef Mustafa Mekkawy |     muhanad.atef23@gmail.com     |
+| Abdulrahman Khalid Hassan    | abdulrahman.elshafei98@gmail.com |
+| Mahmoud Mohamed Mahmoud Ali  |        Mmmacmp@gmail.com         |
+| Hossam ahmed mahmoud ibrahem |   hossamahmed201515@gmail.com    |
 
 First, we wrote A\* code algorithm then we added the algorithm with different heuristic function into
 [cu-gr](https://github.com/cuhk-eda/cu-gr) code in MazeRoute.cpp and MazeRoute.h files which you will find in **Code/paper_code/src/single_net** folder
